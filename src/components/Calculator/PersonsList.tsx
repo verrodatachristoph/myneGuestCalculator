@@ -59,7 +59,7 @@ export function PersonsList({ stay, onStayChange }: PersonsListProps) {
                   type="checkbox"
                   checked={person.isOwner}
                   onChange={(e) => updatePerson(person.id, { isOwner: e.target.checked })}
-                  className="h-4 w-4 rounded border-ocean bg-sand accent-ocean"
+                  className="h-4 w-4 rounded border-gray-300 text-ocean focus:ring-beach"
                 />
                 Eigentümer
               </label>
@@ -68,7 +68,7 @@ export function PersonsList({ stay, onStayChange }: PersonsListProps) {
                 size="icon"
                 onClick={() => removePerson(person.id)}
                 disabled={stay.persons.length <= 1}
-                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                className="text-myne-red hover:text-myne-red hover:bg-red-50"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +94,7 @@ export function PersonsList({ stay, onStayChange }: PersonsListProps) {
           <Button variant="outline" onClick={addPerson}>
             + Person hinzufügen
           </Button>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-gray-500">
             {ownerCount} Eigentümer, {guestCount} Gäste
           </span>
         </div>

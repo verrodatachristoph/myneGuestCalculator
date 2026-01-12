@@ -15,18 +15,18 @@ export default function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">Lade Einstellungen...</p>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <p className="text-gray-500">Lade Einstellungen...</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <div className="container max-w-5xl py-8">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">MYNE Gäste-Rechner</h1>
-          <p className="text-muted-foreground mt-1">Faire Kostenaufteilung für Ferienhaus-Aufenthalte</p>
+          <h1 className="text-3xl font-bold text-ocean">MYNE Gäste-Rechner</h1>
+          <p className="text-gray-500 mt-1">Faire Kostenaufteilung für Ferienhaus-Aufenthalte</p>
         </header>
 
         <div className="w-full">

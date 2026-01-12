@@ -14,17 +14,17 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // MYNE Brand Colors
+        // MYNE Brand Colors - Direct values
         ocean: {
-          DEFAULT: 'hsl(210 85% 13%)',
-          light: 'hsl(210 85% 22%)',
+          DEFAULT: '#05213D',
+          light: '#083766',
         },
-        sand: 'hsl(45 60% 97%)',
-        beach: 'hsl(34 53% 52%)',
-        'myne-green': 'hsl(96 78% 47%)',
-        'myne-red': 'hsl(350 65% 51%)',
+        sand: '#FDFBF4',
+        beach: '#C78F44',
+        'myne-green': '#5FD019',
+        'myne-red': '#D13551',
 
-        // Semantic colors
+        // Semantic colors using CSS variables
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

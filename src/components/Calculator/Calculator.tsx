@@ -37,7 +37,7 @@ export function Calculator({ settings, stay, onStayChange }: CalculatorProps) {
       )}
 
       {costs.guestCount === 0 && (
-        <div className="text-center py-8 text-muted-foreground">
+        <div className="text-center py-8 text-gray-500">
           <p>Keine Gäste vorhanden.</p>
           <p className="text-sm">Fügen Sie Personen hinzu und markieren Sie mindestens eine Person als Gast (nicht Eigentümer).</p>
         </div>

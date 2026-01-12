@@ -17,38 +17,38 @@ export function TotalCostsBreakdown({ costs, stay, settings }: TotalCostsBreakdo
       <CardContent>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">
+            <span className="text-gray-500">
               Miete ({stay.nights} x {formatCurrency(settings.seasons[stay.season].pricePerNight)})
             </span>
-            <span>{formatCurrency(costs.rentFull)}</span>
+            <span className="text-ocean">{formatCurrency(costs.rentFull)}</span>
           </div>
-          <div className="flex justify-between pl-4 text-muted-foreground">
+          <div className="flex justify-between pl-4 text-gray-400 text-xs">
             <span>→ davon 10% MwSt (echte Kosten)</span>
             <span>{formatCurrency(costs.rentCost)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-muted-foreground">
+            <span className="text-gray-500">
               Kurtaxe ({costs.totalPersons} x {stay.nights} x {formatCurrency(settings.extras.touristTax)})
             </span>
-            <span>{formatCurrency(costs.touristTaxTotal)}</span>
+            <span className="text-ocean">{formatCurrency(costs.touristTaxTotal)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-muted-foreground">
+            <span className="text-gray-500">
               Wäsche ({costs.totalPersons} x {formatCurrency(settings.extras.laundryPackage)})
             </span>
-            <span>{formatCurrency(costs.laundryTotal)}</span>
+            <span className="text-ocean">{formatCurrency(costs.laundryTotal)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Endreinigung</span>
-            <span>{formatCurrency(costs.cleaningTotal)}</span>
+            <span className="text-gray-500">Endreinigung</span>
+            <span className="text-ocean">{formatCurrency(costs.cleaningTotal)}</span>
           </div>
 
-          <div className="flex justify-between pt-2 border-t border-border font-semibold">
-            <span>Gesamt</span>
-            <span>{formatCurrency(costs.totalCost)}</span>
+          <div className="flex justify-between pt-2 border-t border-gray-200 font-semibold">
+            <span className="text-ocean">Gesamt</span>
+            <span className="text-ocean">{formatCurrency(costs.totalCost)}</span>
           </div>
         </div>
       </CardContent>

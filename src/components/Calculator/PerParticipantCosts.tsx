@@ -15,28 +15,28 @@ export function PerParticipantCosts({ costs }: PerParticipantCostsProps) {
       <CardContent>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Mietanteil (1/{costs.totalPersons})</span>
-            <span>{formatCurrency(costs.rentSharePP)}</span>
+            <span className="text-gray-500">Mietanteil (1/{costs.totalPersons})</span>
+            <span className="text-ocean">{formatCurrency(costs.rentSharePP)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Kurtaxe</span>
-            <span>{formatCurrency(costs.touristTaxPP)}</span>
+            <span className="text-gray-500">Kurtaxe</span>
+            <span className="text-ocean">{formatCurrency(costs.touristTaxPP)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Wäsche</span>
-            <span>{formatCurrency(costs.laundryPP)}</span>
+            <span className="text-gray-500">Wäsche</span>
+            <span className="text-ocean">{formatCurrency(costs.laundryPP)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Reinigungsanteil (1/{costs.totalPersons})</span>
-            <span>{formatCurrency(costs.cleaningSharePP)}</span>
+            <span className="text-gray-500">Reinigungsanteil (1/{costs.totalPersons})</span>
+            <span className="text-ocean">{formatCurrency(costs.cleaningSharePP)}</span>
           </div>
 
-          <div className="flex justify-between pt-2 border-t border-border font-semibold">
-            <span>Pro Teilnehmer</span>
-            <span>{formatCurrency(costs.perPerson)}</span>
+          <div className="flex justify-between pt-2 border-t border-gray-200 font-semibold">
+            <span className="text-ocean">Pro Teilnehmer</span>
+            <span className="text-ocean">{formatCurrency(costs.perPerson)}</span>
           </div>
         </div>
       </CardContent>

@@ -29,7 +29,7 @@ export function TabsList({ children, className }: TabsListProps) {
   return (
     <div
       className={cn(
-        'inline-flex h-11 items-center justify-center rounded-lg bg-ocean/10 p-1 text-ocean',
+        'inline-flex h-11 items-center justify-center rounded-lg bg-gray-100 p-1',
         className
       )}
     >
@@ -55,10 +55,10 @@ export function TabsTrigger({ value, active, onClick, children, className }: Tab
       data-value={value}
       onClick={onClick}
       className={cn(
-        'inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+        'inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-beach',
         active
           ? 'bg-ocean text-white shadow-sm'
-          : 'text-ocean hover:bg-ocean/10',
+          : 'text-ocean hover:bg-gray-200',
         className
       )}
     >
@@ -80,10 +80,7 @@ export function TabsContent({ value, active, children, className }: TabsContentP
     <div
       role="tabpanel"
       data-value={value}
-      className={cn(
-        'mt-4 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        className
-      )}
+      className={cn('mt-4', className)}
     >
       {children}
     </div>

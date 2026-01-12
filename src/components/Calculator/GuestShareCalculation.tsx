@@ -15,31 +15,31 @@ export function GuestShareCalculation({ costs }: GuestShareCalculationProps) {
       <CardContent>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">
+            <span className="text-gray-500">
               Mietanteil ({formatCurrency(costs.rentSharePP)} x {formatPercent(costs.multiplier)})
             </span>
-            <span>{formatCurrency(costs.guestRentShare)}</span>
+            <span className="text-ocean">{formatCurrency(costs.guestRentShare)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Kurtaxe (immer voll)</span>
-            <span>{formatCurrency(costs.guestTouristTax)}</span>
+            <span className="text-gray-500">Kurtaxe (immer voll)</span>
+            <span className="text-ocean">{formatCurrency(costs.guestTouristTax)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Wäsche (immer voll)</span>
-            <span>{formatCurrency(costs.guestLaundry)}</span>
+            <span className="text-gray-500">Wäsche (immer voll)</span>
+            <span className="text-ocean">{formatCurrency(costs.guestLaundry)}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-muted-foreground">
+            <span className="text-gray-500">
               Reinigung ({formatCurrency(costs.cleaningSharePP)} x {formatPercent(costs.multiplier)})
             </span>
-            <span>{formatCurrency(costs.guestCleaningShare)}</span>
+            <span className="text-ocean">{formatCurrency(costs.guestCleaningShare)}</span>
           </div>
 
-          <div className="flex justify-between pt-2 border-t border-border font-semibold">
-            <span>Pro Gast</span>
+          <div className="flex justify-between pt-2 border-t border-gray-200 font-semibold">
+            <span className="text-ocean">Pro Gast</span>
             <span className="text-beach">{formatCurrency(costs.perGuest)}</span>
           </div>
         </div>
