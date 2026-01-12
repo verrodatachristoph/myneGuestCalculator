@@ -6,10 +6,10 @@ const API_URL = import.meta.env.DEV ? 'http://localhost:3001' : ''
 export async function loadSettings(): Promise<Settings | null> {
   try {
     const response = await fetch(`${API_URL}/api/settings`)
-    if (!response.ok) throw new Error('Failed to load settings')
+    if (!response.ok) return null
     return await response.json()
-  } catch (error) {
-    console.warn('API not available, using localStorage:', error)
+  } catch {
+    // API not available - silently fall back to localStorage
     return null
   }
 }
@@ -22,8 +22,8 @@ export async function saveSettings(settings: Settings): Promise<boolean> {
       body: JSON.stringify(settings),
     })
     return response.ok
-  } catch (error) {
-    console.warn('API not available, using localStorage:', error)
+  } catch {
+    // API not available - silently fall back to localStorage
     return false
   }
 }

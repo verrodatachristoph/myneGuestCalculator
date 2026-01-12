@@ -28,8 +28,8 @@ export function useSettings(): [Settings, (settings: Settings) => void, boolean]
         if (stored) {
           setSettingsState(JSON.parse(stored))
         }
-      } catch (error) {
-        console.warn('Failed to load from localStorage:', error)
+      } catch {
+        // Silently ignore localStorage errors
       }
 
       setIsLoading(false)
@@ -45,13 +45,13 @@ export function useSettings(): [Settings, (settings: Settings) => void, boolean]
     // localStorage sofort aktualisieren
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSettings))
-    } catch (error) {
-      console.warn('Failed to save to localStorage:', error)
+    } catch {
+      // Silently ignore localStorage errors
     }
 
-    // API async aktualisieren
-    saveSettings(newSettings).catch((error) => {
-      console.warn('Failed to save to API:', error)
+    // API async aktualisieren (silently)
+    saveSettings(newSettings).catch(() => {
+      // Silently ignore - localStorage is the fallback
     })
   }, [])
 

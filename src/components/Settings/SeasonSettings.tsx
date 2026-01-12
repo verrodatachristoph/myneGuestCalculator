@@ -26,10 +26,10 @@ export function SeasonSettings({ settings, onSettingsChange }: SeasonSettingsPro
         <CardTitle>Saisonpreise</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {SEASON_ORDER.map(({ key }) => (
             <div key={key}>
-              <Label>{settings.seasons[key].name}</Label>
+              <Label className="text-xs sm:text-sm">{settings.seasons[key].name}</Label>
               <div className="flex items-center gap-2">
                 <Input
                   type="number"
@@ -37,7 +37,7 @@ export function SeasonSettings({ settings, onSettingsChange }: SeasonSettingsPro
                   value={settings.seasons[key].pricePerNight}
                   onChange={(e) => handlePriceChange(key, e.target.value)}
                 />
-                <span className="text-sm text-slate-400 whitespace-nowrap">/ Nacht</span>
+                <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">€/Nacht</span>
               </div>
             </div>
           ))}

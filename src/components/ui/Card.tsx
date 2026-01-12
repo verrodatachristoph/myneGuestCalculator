@@ -8,7 +8,7 @@ export function Card({ className, children, ...props }: CardProps) {
   return (
     <div
       className={cn(
-        'bg-white rounded-xl shadow-card transition-shadow hover:shadow-card-hover',
+        'bg-card text-card-foreground rounded-xl border border-border shadow-sm',
         className
       )}
       {...props}
@@ -36,7 +36,7 @@ interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
 
 export function CardTitle({ className, children, ...props }: CardTitleProps) {
   return (
-    <h3 className={cn('text-base font-semibold text-slate-800', className)} {...props}>
+    <h3 className={cn('text-base font-semibold text-foreground', className)} {...props}>
       {children}
     </h3>
   )

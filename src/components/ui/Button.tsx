@@ -17,13 +17,13 @@ export function Button({
     <button
       className={cn(
         'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200',
-        'focus:outline-none focus:ring-2 focus:ring-offset-2',
+        'focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         // Variants
-        variant === 'primary' && 'bg-ocean text-white hover:bg-ocean-light focus:ring-ocean/30',
-        variant === 'secondary' && 'bg-slate-100 text-slate-700 hover:bg-slate-200 focus:ring-slate-300',
-        variant === 'ghost' && 'text-slate-600 hover:bg-slate-100 focus:ring-slate-300',
-        variant === 'danger' && 'text-red-600 hover:bg-red-50 focus:ring-red-300',
+        variant === 'primary' && 'bg-primary text-primary-foreground hover:bg-primary/90',
+        variant === 'secondary' && 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        variant === 'ghost' && 'text-muted-foreground hover:bg-secondary hover:text-foreground',
+        variant === 'danger' && 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         // Sizes
         size === 'default' && 'h-11 px-5 text-sm',
         size === 'sm' && 'h-9 px-4 text-sm',

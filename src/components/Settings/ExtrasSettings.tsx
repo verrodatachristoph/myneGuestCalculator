@@ -24,7 +24,7 @@ export function ExtrasSettings({ settings, onSettingsChange }: ExtrasSettingsPro
       <CardContent>
         <div className="space-y-4">
           <div>
-            <Label>Kurtaxe</Label>
+            <Label className="text-xs sm:text-sm">Kurtaxe</Label>
             <div className="flex items-center gap-2">
               <Input
                 type="number"
@@ -33,12 +33,12 @@ export function ExtrasSettings({ settings, onSettingsChange }: ExtrasSettingsPro
                 value={settings.extras.touristTax}
                 onChange={(e) => handleChange('touristTax', e.target.value)}
               />
-              <span className="text-sm text-slate-400 whitespace-nowrap">/ Person / Tag</span>
+              <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">€/Pers./Tag</span>
             </div>
           </div>
 
           <div>
-            <Label>Wäschepaket</Label>
+            <Label className="text-xs sm:text-sm">Wäschepaket</Label>
             <div className="flex items-center gap-2">
               <Input
                 type="number"
@@ -46,12 +46,12 @@ export function ExtrasSettings({ settings, onSettingsChange }: ExtrasSettingsPro
                 value={settings.extras.laundryPackage}
                 onChange={(e) => handleChange('laundryPackage', e.target.value)}
               />
-              <span className="text-sm text-slate-400 whitespace-nowrap">/ Person</span>
+              <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">€/Person</span>
             </div>
           </div>
 
           <div>
-            <Label>Endreinigung</Label>
+            <Label className="text-xs sm:text-sm">Endreinigung</Label>
             <div className="flex items-center gap-2">
               <Input
                 type="number"
@@ -59,7 +59,7 @@ export function ExtrasSettings({ settings, onSettingsChange }: ExtrasSettingsPro
                 value={settings.extras.finalCleaning}
                 onChange={(e) => handleChange('finalCleaning', e.target.value)}
               />
-              <span className="text-sm text-slate-400 whitespace-nowrap">pauschal</span>
+              <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">€ pauschal</span>
             </div>
           </div>
         </div>

@@ -19,7 +19,7 @@ export function PerParticipantCosts({ costs }: PerParticipantCostsProps) {
           <Row label="Wäsche" value={formatCurrency(costs.laundryPP)} />
           <Row label={`Reinigung (1/${costs.totalPersons})`} value={formatCurrency(costs.cleaningSharePP)} />
 
-          <div className="pt-3 mt-3 border-t border-slate-100">
+          <div className="pt-3 mt-3 border-t border-border">
             <Row label="Pro Teilnehmer" value={formatCurrency(costs.perPerson)} bold />
           </div>
         </div>
@@ -30,9 +30,9 @@ export function PerParticipantCosts({ costs }: PerParticipantCostsProps) {
 
 function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
   return (
-    <div className={`flex justify-between text-sm ${bold ? 'font-semibold text-slate-800' : ''}`}>
-      <span className={bold ? '' : 'text-slate-500'}>{label}</span>
-      <span className={bold ? '' : 'text-slate-700'}>{value}</span>
+    <div className={`flex justify-between text-sm ${bold ? 'font-semibold text-foreground' : ''}`}>
+      <span className={bold ? '' : 'text-muted-foreground'}>{label}</span>
+      <span className={bold ? '' : 'text-foreground'}>{value}</span>
     </div>
   )
 }

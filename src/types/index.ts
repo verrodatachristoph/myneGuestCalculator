@@ -18,20 +18,10 @@ export interface Extras {
 // Guest type
 export type GuestType = 'family' | 'friends';
 
-// Multiplier keys
-export type MultiplierKey =
-  | 'withMeFamily'
-  | 'withMeFriends'
-  | 'withoutMeFamily'
-  | 'withoutMeFriends';
-
-export type Multipliers = Record<MultiplierKey, number>;
-
 // Complete settings
 export interface Settings {
   seasons: Seasons;
   extras: Extras;
-  multipliers: Multipliers;
 }
 
 // Person in the stay
@@ -41,17 +31,30 @@ export interface Person {
   isOwner: boolean;
 }
 
-// Stay details
+// Stay details - now with dates
 export interface Stay {
+  checkIn: string;   // ISO date string YYYY-MM-DD
+  checkOut: string;  // ISO date string YYYY-MM-DD
+  guestType: GuestType;
+  guestSharePercent: number;  // 0-200%, default 100%
+  profitMargin: number;       // 0, 50, or 100 - added on top for profit
+  persons: Person[];
+}
+
+// Season breakdown for a stay
+export interface SeasonBreakdown {
   season: SeasonType;
   nights: number;
-  withOwner: boolean;
-  guestType: GuestType;
-  persons: Person[];
+  pricePerNight: number;
+  subtotal: number;
 }
 
 // Calculation results
 export interface CostBreakdown {
+  // Date info
+  nights: number;
+  seasonBreakdown: SeasonBreakdown[];
+
   // Raw totals
   rentFull: number;
   rentCost: number;          // rentFull × 10% VAT
@@ -68,8 +71,7 @@ export interface CostBreakdown {
   perPerson: number;
 
   // Guest share (with multiplier)
-  multiplierKey: MultiplierKey;
-  multiplier: number;
+  guestSharePercent: number;
   guestRentShare: number;
   guestCleaningShare: number;
   guestTouristTax: number;

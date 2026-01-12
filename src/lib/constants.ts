@@ -1,45 +1,40 @@
-import type { Settings, Stay, MultiplierKey } from '@/types'
+import type { Settings, Stay } from '@/types'
 
 export const VAT_RATE = 0.10 // 10% MwSt Österreich - fix, nicht konfigurierbar
 
+// Prices from MYNE Saisonverteilungsplan - Alpine Terrace Brixen im Thale
 export const DEFAULT_SETTINGS: Settings = {
   seasons: {
-    peak: { name: 'Spitzensaison', pricePerNight: 180 },
-    high: { name: 'Hauptsaison', pricePerNight: 150 },
-    mid: { name: 'Zwischensaison', pricePerNight: 120 },
-    low: { name: 'Nebensaison', pricePerNight: 90 },
+    peak: { name: 'Spitzensaison', pricePerNight: 250 },
+    high: { name: 'Hauptsaison', pricePerNight: 199 },
+    mid: { name: 'Zwischensaison', pricePerNight: 173 },
+    low: { name: 'Nebensaison', pricePerNight: 107 },
   },
   extras: {
     touristTax: 3.5,
     laundryPackage: 15,
     finalCleaning: 95,
   },
-  multipliers: {
-    withMeFamily: 0.3,
-    withMeFriends: 0.5,
-    withoutMeFamily: 0.6,
-    withoutMeFriends: 0.8,
-  },
 }
 
+// Default stay without pre-selected dates
 export const DEFAULT_STAY: Stay = {
-  season: 'high',
-  nights: 7,
-  withOwner: true,
+  checkIn: '',
+  checkOut: '',
   guestType: 'friends',
+  guestSharePercent: 100,
+  profitMargin: 0,
   persons: [
-    { id: '1', name: 'Eigentümer', isOwner: true },
-    { id: '2', name: 'Gast 1', isOwner: false },
-    { id: '3', name: 'Gast 2', isOwner: false },
-    { id: '4', name: 'Gast 3', isOwner: false },
+    { id: '1', name: 'Eigentümer 1', isOwner: true },
+    { id: '2', name: 'Eigentümer 2', isOwner: true },
+    { id: '3', name: 'Gast 1', isOwner: false },
+    { id: '4', name: 'Gast 2', isOwner: false },
   ],
 }
 
-export const MULTIPLIER_LABELS: Record<MultiplierKey, string> = {
-  withMeFamily: 'Mit mir + Familie',
-  withMeFriends: 'Mit mir + Freunde',
-  withoutMeFamily: 'Ohne mich + Familie',
-  withoutMeFriends: 'Ohne mich + Freunde',
+export const GUEST_TYPE_LABELS: Record<'family' | 'friends', string> = {
+  family: 'Familie',
+  friends: 'Freunde',
 }
 
 export const SEASON_ORDER: Array<{ key: 'peak' | 'high' | 'mid' | 'low' }> = [

@@ -1,14 +1,13 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
-import type { CostBreakdown, Stay, Settings } from '@/types'
+import type { CostBreakdown, Settings } from '@/types'
 import { formatCurrency } from '@/lib/formatters'
 
 interface TotalCostsBreakdownProps {
   costs: CostBreakdown
-  stay: Stay
   settings: Settings
 }
 
-export function TotalCostsBreakdown({ costs, stay, settings }: TotalCostsBreakdownProps) {
+export function TotalCostsBreakdown({ costs, settings }: TotalCostsBreakdownProps) {
   return (
     <Card>
       <CardHeader>
@@ -16,15 +15,26 @@ export function TotalCostsBreakdown({ costs, stay, settings }: TotalCostsBreakdo
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          <Row
-            label={`Miete (${stay.nights} × ${formatCurrency(settings.seasons[stay.season].pricePerNight)})`}
-            value={formatCurrency(costs.rentFull)}
-          />
-          <div className="pl-4 text-xs text-slate-400">
-            → davon 10% MwSt = {formatCurrency(costs.rentCost)}
+          {/* Season breakdown - muted section */}
+          <div className="space-y-1 pb-3 mb-3 border-b border-border/50">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Bruttomiete ({costs.nights} Nächte)</span>
+              <span className="text-muted-foreground">{formatCurrency(costs.rentFull)}</span>
+            </div>
+            {costs.seasonBreakdown.map((s) => (
+              <div key={s.season} className="flex justify-between text-xs pl-3">
+                <span className="text-muted-foreground">
+                  {settings.seasons[s.season].name} ({s.nights}× {formatCurrency(s.pricePerNight)})
+                </span>
+                <span className="text-muted-foreground">{formatCurrency(s.subtotal)}</span>
+              </div>
+            ))}
           </div>
+
+          {/* Cost items that sum up */}
+          <Row label="Mietkosten (10% MwSt)" value={formatCurrency(costs.rentCost)} />
           <Row
-            label={`Kurtaxe (${costs.totalPersons} × ${stay.nights} × ${formatCurrency(settings.extras.touristTax)})`}
+            label={`Kurtaxe (${costs.totalPersons} × ${costs.nights} × ${formatCurrency(settings.extras.touristTax)})`}
             value={formatCurrency(costs.touristTaxTotal)}
           />
           <Row
@@ -33,7 +43,7 @@ export function TotalCostsBreakdown({ costs, stay, settings }: TotalCostsBreakdo
           />
           <Row label="Endreinigung" value={formatCurrency(costs.cleaningTotal)} />
 
-          <div className="pt-3 mt-3 border-t border-slate-100">
+          <div className="pt-3 mt-3 border-t border-border">
             <Row label="Gesamt" value={formatCurrency(costs.totalCost)} bold />
           </div>
         </div>
@@ -44,9 +54,9 @@ export function TotalCostsBreakdown({ costs, stay, settings }: TotalCostsBreakdo
 
 function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
   return (
-    <div className={`flex justify-between text-sm ${bold ? 'font-semibold text-slate-800' : ''}`}>
-      <span className={bold ? '' : 'text-slate-500'}>{label}</span>
-      <span className={bold ? '' : 'text-slate-700'}>{value}</span>
+    <div className={`flex justify-between text-sm ${bold ? 'font-semibold text-foreground' : ''}`}>
+      <span className={bold ? '' : 'text-muted-foreground'}>{label}</span>
+      <span className={bold ? '' : 'text-foreground'}>{value}</span>
     </div>
   )
 }
