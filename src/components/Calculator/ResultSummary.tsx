@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { jsPDF } from 'jspdf'
 import type { CostBreakdown, Stay } from '@/types'
 import { formatCurrency } from '@/lib/formatters'
 
@@ -80,6 +81,112 @@ Bitte überweise deinen Anteil per PayPal. Danke!`
     const subject = 'Abrechnung Urlaub'
     const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(getShareMessage())}`
     window.open(mailtoUrl, '_blank')
+  }
+
+  const handleExportPDF = () => {
+    const doc = new jsPDF()
+    const guestNames = stay.persons.filter(p => !p.isOwner).map(p => p.name)
+
+    // Title
+    doc.setFontSize(20)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Abrechnung Urlaub', 20, 25)
+
+    // Subtitle
+    doc.setFontSize(10)
+    doc.setFont('helvetica', 'normal')
+    doc.setTextColor(100)
+    doc.text('Alpine Terrace - Brixen im Thale', 20, 33)
+    doc.setTextColor(0)
+
+    // Line
+    doc.setDrawColor(200)
+    doc.line(20, 38, 190, 38)
+
+    let y = 50
+
+    // Travel period
+    doc.setFontSize(12)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Reisezeitraum', 20, y)
+    y += 8
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(10)
+    doc.text(`Anreise: ${formatDateGerman(stay.checkIn)}`, 20, y)
+    y += 6
+    doc.text(`Abreise: ${formatDateGerman(stay.checkOut)}`, 20, y)
+    y += 6
+    doc.text(`Nächte: ${costs.nights}`, 20, y)
+    y += 12
+
+    // Guests
+    doc.setFontSize(12)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Gäste', 20, y)
+    y += 8
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(10)
+    if (guestNames.length > 0) {
+      guestNames.forEach(name => {
+        doc.text(`• ${name}`, 20, y)
+        y += 6
+      })
+    } else {
+      doc.text('Keine Gäste', 20, y)
+      y += 6
+    }
+    y += 6
+
+    // Cost breakdown
+    doc.setFontSize(12)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Kosten pro Gast', 20, y)
+    y += 8
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(10)
+
+    const costItems = [
+      ['Mietanteil', formatCurrency(costs.guestRentShare)],
+      ['Kurtaxe', formatCurrency(costs.guestTouristTax)],
+      ['Wäschepaket', formatCurrency(costs.guestLaundry)],
+      ['Reinigung', formatCurrency(costs.guestCleaningShare)],
+    ]
+
+    costItems.forEach(([label, value]) => {
+      doc.text(label, 20, y)
+      doc.text(value, 80, y)
+      y += 6
+    })
+
+    y += 4
+    doc.setDrawColor(200)
+    doc.line(20, y, 100, y)
+    y += 8
+
+    // Total
+    doc.setFontSize(14)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Gesamt pro Gast:', 20, y)
+    doc.text(formatCurrency(costs.perGuest), 80, y)
+    y += 12
+
+    // Per night
+    if (costs.nights > 0) {
+      doc.setFontSize(10)
+      doc.setFont('helvetica', 'normal')
+      doc.setTextColor(100)
+      doc.text(`(${formatCurrency(costs.perGuest / costs.nights)} pro Nacht)`, 20, y)
+      doc.setTextColor(0)
+    }
+
+    // Footer
+    doc.setFontSize(8)
+    doc.setTextColor(150)
+    doc.text('Erstellt mit MYNE Kostenverteiler', 20, 280)
+
+    // Save
+    const fileName = `Abrechnung_${formatDateGerman(stay.checkIn).replace(/\./g, '-')}.pdf`
+    doc.save(fileName)
   }
 
   const ownerShare = costs.totalCost - costs.guestTotal
@@ -191,11 +298,11 @@ Bitte überweise deinen Anteil per PayPal. Danke!`
 
       <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-border">
         <p className="text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3 text-center">Abrechnung teilen</p>
-        <div className="flex gap-1.5 sm:gap-2">
+        <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
           <button
             type="button"
             onClick={handleCopyToClipboard}
-            className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm font-medium rounded-lg transition-colors ${
+            className={`flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm font-medium rounded-lg transition-colors ${
               copied
                 ? 'bg-green-500/20 text-green-500'
                 : 'bg-secondary hover:bg-secondary/80 text-foreground'
@@ -216,7 +323,7 @@ Bitte überweise deinen Anteil per PayPal. Danke!`
           <button
             type="button"
             onClick={handleShareWhatsApp}
-            className="flex-1 flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-2.5 px-2 sm:px-3 bg-secondary hover:bg-secondary/80 text-foreground text-xs sm:text-sm font-medium rounded-lg transition-colors"
+            className="flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-2.5 px-2 sm:px-3 bg-secondary hover:bg-secondary/80 text-foreground text-xs sm:text-sm font-medium rounded-lg transition-colors"
             title="Per WhatsApp teilen"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -227,13 +334,24 @@ Bitte überweise deinen Anteil per PayPal. Danke!`
           <button
             type="button"
             onClick={handleShareEmail}
-            className="flex-1 flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-2.5 px-2 sm:px-3 bg-secondary hover:bg-secondary/80 text-foreground text-xs sm:text-sm font-medium rounded-lg transition-colors"
+            className="flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-2.5 px-2 sm:px-3 bg-secondary hover:bg-secondary/80 text-foreground text-xs sm:text-sm font-medium rounded-lg transition-colors"
             title="Per E-Mail teilen"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
             <span className="hidden sm:inline">E-Mail</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleExportPDF}
+            className="flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-2.5 px-2 sm:px-3 bg-secondary hover:bg-secondary/80 text-foreground text-xs sm:text-sm font-medium rounded-lg transition-colors"
+            title="Als PDF exportieren"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span className="hidden sm:inline">PDF</span>
           </button>
         </div>
       </div>

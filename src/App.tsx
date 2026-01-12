@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs'
 import { Calculator } from '@/components/Calculator/Calculator'
 import { Settings } from '@/components/Settings/Settings'
 import { Help } from '@/components/Help/Help'
+import { Toast } from '@/components/ui/Toast'
 import { useSettings } from '@/hooks/useSettings'
 import { useTheme } from '@/hooks/useTheme'
 import { DEFAULT_STAY } from '@/lib/constants'
-import type { Stay } from '@/types'
+import type { Stay, Settings as SettingsType } from '@/types'
 
 type TabValue = 'calculator' | 'settings' | 'help'
 
@@ -36,6 +37,12 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<TabValue>('calculator')
   const [settings, setSettings, isLoading] = useSettings()
   const [stay, setStay] = useState<Stay>(DEFAULT_STAY)
+  const [showToast, setShowToast] = useState(false)
+
+  const handleSettingsChange = useCallback((newSettings: SettingsType) => {
+    setSettings(newSettings)
+    setShowToast(true)
+  }, [setSettings])
 
   if (isLoading) {
     return (
@@ -91,7 +98,7 @@ export default function App() {
         </TabsContent>
 
         <TabsContent value="settings" active={activeTab === 'settings'}>
-          <Settings settings={settings} onSettingsChange={setSettings} />
+          <Settings settings={settings} onSettingsChange={handleSettingsChange} />
         </TabsContent>
 
         <TabsContent value="help" active={activeTab === 'help'}>
@@ -102,6 +109,13 @@ export default function App() {
       <footer className="py-6 text-center text-xs text-muted-foreground/60 border-t border-border/50">
         by Christoph Ludwig (MYNE Property Owner)
       </footer>
+
+      <Toast
+        message="Einstellungen gespeichert"
+        type="success"
+        isVisible={showToast}
+        onClose={() => setShowToast(false)}
+      />
     </div>
   )
 }

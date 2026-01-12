@@ -50,5 +50,9 @@ interface TabsContentProps {
 
 export function TabsContent({ active, children, className }: TabsContentProps) {
   if (!active) return null
-  return <div className={cn('mt-6', className)}>{children}</div>
+  return (
+    <div className={cn('mt-6 animate-fade-in', className)}>
+      {children}
+    </div>
+  )
 }
