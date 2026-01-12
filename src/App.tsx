@@ -25,7 +25,7 @@ export default function App() {
     <div className="min-h-screen bg-background">
       <div className="container max-w-5xl py-8">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Ferienhaus-Kostenrechner</h1>
+          <h1 className="text-3xl font-bold text-foreground">MYNE Gäste-Rechner</h1>
           <p className="text-muted-foreground mt-1">Faire Kostenaufteilung für Ferienhaus-Aufenthalte</p>
         </header>
 
