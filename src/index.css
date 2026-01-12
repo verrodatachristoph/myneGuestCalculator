@@ -17,23 +17,23 @@
     --grey: 30 12% 77%;             /* #CAC4BE */
     --light-grey: 350 8% 88%;       /* #E3DDDE */
 
-    /* Semantic mapping */
-    --background: var(--sand);
+    /* Semantic mapping - White background theme */
+    --background: 0 0% 100%;        /* White */
     --foreground: var(--ocean);
 
-    --card: 0 0% 100%;              /* White cards */
+    --card: var(--sand);            /* Sand for cards */
     --card-foreground: var(--ocean);
 
     --popover: 0 0% 100%;
     --popover-foreground: var(--ocean);
 
     --primary: var(--ocean);
-    --primary-foreground: 45 60% 97%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: var(--light-grey);
+    --secondary: var(--sand);
     --secondary-foreground: var(--ocean);
 
-    --muted: var(--light-grey);
+    --muted: var(--sand);
     --muted-foreground: var(--dark-grey);
 
     --accent: var(--beach);
@@ -43,7 +43,7 @@
     --destructive-foreground: 0 0% 100%;
 
     --border: var(--grey);
-    --input: var(--grey);
+    --input: var(--sand);           /* Sand for input backgrounds */
     --ring: var(--beach);
 
     --radius: 0.5rem;

@@ -54,12 +54,12 @@ export function PersonsList({ stay, onStayChange }: PersonsListProps) {
                 placeholder="Name"
                 className="flex-1"
               />
-              <label className="flex items-center gap-2 text-sm whitespace-nowrap cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-ocean whitespace-nowrap cursor-pointer">
                 <input
                   type="checkbox"
                   checked={person.isOwner}
                   onChange={(e) => updatePerson(person.id, { isOwner: e.target.checked })}
-                  className="h-4 w-4 rounded border-input bg-background accent-primary"
+                  className="h-4 w-4 rounded border-ocean bg-sand accent-ocean"
                 />
                 Eigentümer
               </label>
@@ -91,7 +91,7 @@ export function PersonsList({ stay, onStayChange }: PersonsListProps) {
         </div>
 
         <div className="mt-4 flex items-center justify-between">
-          <Button variant="secondary" onClick={addPerson}>
+          <Button variant="outline" onClick={addPerson}>
             + Person hinzufügen
           </Button>
           <span className="text-sm text-muted-foreground">
