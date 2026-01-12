@@ -173,7 +173,7 @@ export function SeasonCalendarView({ settings }: SeasonCalendarViewProps) {
         </div>
 
         {/* Two Month Calendar */}
-        <div className="space-y-6 mb-6">
+        <div className="flex flex-col sm:flex-row gap-6 mb-6">
           {months.map(month => (
             <MonthCalendarLarge key={month} year={selectedYear} month={month} settings={settings} />
           ))}

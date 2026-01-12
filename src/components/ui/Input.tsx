@@ -12,6 +12,8 @@ export function Input({ className, type, ...props }: InputProps) {
         'focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent',
         'transition-all duration-200',
         'disabled:opacity-50 disabled:cursor-not-allowed',
+        // iOS date input fixes
+        type === 'date' && 'appearance-none min-h-[44px] [&::-webkit-date-and-time-value]:text-left',
         className
       )}
       {...props}
