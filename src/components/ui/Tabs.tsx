@@ -9,7 +9,7 @@ export function TabsList({ children, className }: TabsListProps) {
   return (
     <div className={cn(
       'flex sm:inline-flex gap-1 p-1.5 rounded-2xl',
-      'bg-white/70 dark:bg-white/10',
+      'bg-white/40 dark:bg-white/10',
       'backdrop-blur-xl',
       'border border-white/50 dark:border-white/20',
       'shadow-lg shadow-black/5 dark:shadow-black/20',
