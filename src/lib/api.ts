@@ -1,11 +1,11 @@
 import type { Settings } from '@/types'
 
-// API URL - lokal Port 3001, auf Vercel /api
-const API_URL = import.meta.env.DEV ? 'http://localhost:3001' : ''
-
 export async function loadSettings(): Promise<Settings | null> {
+  // In development, skip API (Vercel functions not available locally)
+  if (import.meta.env.DEV) return null
+
   try {
-    const response = await fetch(`${API_URL}/api/settings`)
+    const response = await fetch('/api/settings')
     if (!response.ok) return null
     return await response.json()
   } catch {
@@ -15,8 +15,11 @@ export async function loadSettings(): Promise<Settings | null> {
 }
 
 export async function saveSettings(settings: Settings): Promise<boolean> {
+  // In development, skip API (Vercel functions not available locally)
+  if (import.meta.env.DEV) return false
+
   try {
-    const response = await fetch(`${API_URL}/api/settings`, {
+    const response = await fetch('/api/settings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(settings),
