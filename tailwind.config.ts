@@ -14,6 +14,17 @@ const config: Config = {
     },
     extend: {
       colors: {
+        // MYNE Brand Colors
+        ocean: {
+          DEFAULT: 'hsl(210 85% 13%)',
+          light: 'hsl(210 85% 22%)',
+        },
+        sand: 'hsl(45 60% 97%)',
+        beach: 'hsl(34 53% 52%)',
+        'myne-green': 'hsl(96 78% 47%)',
+        'myne-red': 'hsl(350 65% 51%)',
+
+        // Semantic colors
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -48,6 +59,9 @@ const config: Config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
     },
   },

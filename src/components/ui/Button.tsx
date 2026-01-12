@@ -7,11 +7,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles = {
-  default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+  default: 'bg-ocean text-white hover:bg-ocean-light',
   secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
   destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-  outline: 'border border-border bg-transparent hover:bg-accent hover:text-accent-foreground',
-  ghost: 'hover:bg-accent hover:text-accent-foreground',
+  outline: 'border border-ocean text-ocean bg-transparent hover:bg-ocean hover:text-white',
+  ghost: 'text-ocean hover:bg-ocean/10',
 }
 
 const sizeStyles = {

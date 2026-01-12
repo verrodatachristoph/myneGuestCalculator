@@ -40,7 +40,7 @@ export function GuestShareCalculation({ costs }: GuestShareCalculationProps) {
 
           <div className="flex justify-between pt-2 border-t border-border font-semibold">
             <span>Pro Gast</span>
-            <span className="text-primary">{formatCurrency(costs.perGuest)}</span>
+            <span className="text-beach">{formatCurrency(costs.perGuest)}</span>
           </div>
         </div>
       </CardContent>
