@@ -1,25 +1,5 @@
 import { cn } from '@/lib/utils'
 
-interface TabsProps {
-  value: string
-  onValueChange: (value: string) => void
-  children: React.ReactNode
-  className?: string
-}
-
-export function Tabs({ value, onValueChange, children, className }: TabsProps) {
-  return (
-    <div className={cn('w-full', className)} data-value={value} data-onchange={onValueChange.toString()}>
-      {typeof children === 'function'
-        ? (children as (props: { value: string; onValueChange: (v: string) => void }) => React.ReactNode)({
-            value,
-            onValueChange,
-          })
-        : children}
-    </div>
-  )
-}
-
 interface TabsListProps {
   children: React.ReactNode
   className?: string
@@ -27,12 +7,7 @@ interface TabsListProps {
 
 export function TabsList({ children, className }: TabsListProps) {
   return (
-    <div
-      className={cn(
-        'inline-flex h-11 items-center justify-center rounded-lg bg-gray-100 p-1',
-        className
-      )}
-    >
+    <div className={cn('inline-flex gap-1 p-1 bg-slate-100 rounded-lg', className)}>
       {children}
     </div>
   )
@@ -46,19 +21,18 @@ interface TabsTriggerProps {
   className?: string
 }
 
-export function TabsTrigger({ value, active, onClick, children, className }: TabsTriggerProps) {
+export function TabsTrigger({ active, onClick, children, className }: TabsTriggerProps) {
   return (
     <button
       type="button"
       role="tab"
       aria-selected={active}
-      data-value={value}
       onClick={onClick}
       className={cn(
-        'inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-beach',
+        'px-4 py-2 text-sm font-medium rounded-md transition-all duration-200',
         active
-          ? 'bg-ocean text-white shadow-sm'
-          : 'text-ocean hover:bg-gray-200',
+          ? 'bg-white text-slate-800 shadow-sm'
+          : 'text-slate-500 hover:text-slate-700',
         className
       )}
     >
@@ -74,15 +48,7 @@ interface TabsContentProps {
   className?: string
 }
 
-export function TabsContent({ value, active, children, className }: TabsContentProps) {
+export function TabsContent({ active, children, className }: TabsContentProps) {
   if (!active) return null
-  return (
-    <div
-      role="tabpanel"
-      data-value={value}
-      className={cn('mt-4', className)}
-    >
-      {children}
-    </div>
-  )
+  return <div className={cn('mt-6', className)}>{children}</div>
 }

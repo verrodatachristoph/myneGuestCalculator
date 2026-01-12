@@ -15,18 +15,12 @@ export function PersonsList({ stay, onStayChange }: PersonsListProps) {
       name: `Gast ${stay.persons.filter((p) => !p.isOwner).length + 1}`,
       isOwner: false,
     }
-    onStayChange({
-      ...stay,
-      persons: [...stay.persons, newPerson],
-    })
+    onStayChange({ ...stay, persons: [...stay.persons, newPerson] })
   }
 
   const removePerson = (id: string) => {
     if (stay.persons.length <= 1) return
-    onStayChange({
-      ...stay,
-      persons: stay.persons.filter((p) => p.id !== id),
-    })
+    onStayChange({ ...stay, persons: stay.persons.filter((p) => p.id !== id) })
   }
 
   const updatePerson = (id: string, updates: Partial<Person>) => {
@@ -42,7 +36,12 @@ export function PersonsList({ stay, onStayChange }: PersonsListProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Personen ({stay.persons.length})</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle>Personen</CardTitle>
+          <span className="text-sm text-slate-500">
+            {ownerCount} Eigentümer, {guestCount} Gäste
+          </span>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
@@ -54,50 +53,32 @@ export function PersonsList({ stay, onStayChange }: PersonsListProps) {
                 placeholder="Name"
                 className="flex-1"
               />
-              <label className="flex items-center gap-2 text-sm text-ocean whitespace-nowrap cursor-pointer">
+              <label className="flex items-center gap-2 cursor-pointer select-none">
                 <input
                   type="checkbox"
                   checked={person.isOwner}
                   onChange={(e) => updatePerson(person.id, { isOwner: e.target.checked })}
-                  className="h-4 w-4 rounded border-gray-300 text-ocean focus:ring-beach"
+                  className="w-4 h-4 rounded border-slate-300 text-ocean focus:ring-ocean/20"
                 />
-                Eigentümer
+                <span className="text-sm text-slate-600">Eigentümer</span>
               </label>
               <Button
-                variant="ghost"
+                variant="danger"
                 size="icon"
                 onClick={() => removePerson(person.id)}
                 disabled={stay.persons.length <= 1}
-                className="text-myne-red hover:text-myne-red hover:bg-red-50"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M3 6h18" />
-                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2" />
                 </svg>
               </Button>
             </div>
           ))}
         </div>
 
-        <div className="mt-4 flex items-center justify-between">
-          <Button variant="outline" onClick={addPerson}>
-            + Person hinzufügen
-          </Button>
-          <span className="text-sm text-gray-500">
-            {ownerCount} Eigentümer, {guestCount} Gäste
-          </span>
-        </div>
+        <Button variant="secondary" onClick={addPerson} className="mt-4 w-full">
+          + Person hinzufügen
+        </Button>
       </CardContent>
     </Card>
   )

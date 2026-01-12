@@ -10,13 +10,9 @@ interface ExtrasSettingsProps {
 
 export function ExtrasSettings({ settings, onSettingsChange }: ExtrasSettingsProps) {
   const handleChange = (field: keyof Settings['extras'], value: string) => {
-    const numValue = parseFloat(value) || 0
     onSettingsChange({
       ...settings,
-      extras: {
-        ...settings.extras,
-        [field]: numValue,
-      },
+      extras: { ...settings.extras, [field]: parseFloat(value) || 0 },
     })
   }
 
@@ -27,51 +23,43 @@ export function ExtrasSettings({ settings, onSettingsChange }: ExtrasSettingsPro
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="touristTax">Kurtaxe</Label>
+          <div>
+            <Label>Kurtaxe</Label>
             <div className="flex items-center gap-2">
               <Input
-                id="touristTax"
                 type="number"
                 min={0}
                 step={0.5}
                 value={settings.extras.touristTax}
                 onChange={(e) => handleChange('touristTax', e.target.value)}
-                className="flex-1"
               />
-              <span className="text-muted-foreground text-sm whitespace-nowrap">pro Person/Tag</span>
+              <span className="text-sm text-slate-400 whitespace-nowrap">/ Person / Tag</span>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="laundryPackage">Wäschepaket</Label>
+          <div>
+            <Label>Wäschepaket</Label>
             <div className="flex items-center gap-2">
               <Input
-                id="laundryPackage"
                 type="number"
                 min={0}
-                step={1}
                 value={settings.extras.laundryPackage}
                 onChange={(e) => handleChange('laundryPackage', e.target.value)}
-                className="flex-1"
               />
-              <span className="text-muted-foreground text-sm whitespace-nowrap">pro Person</span>
+              <span className="text-sm text-slate-400 whitespace-nowrap">/ Person</span>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="finalCleaning">Endreinigung</Label>
+          <div>
+            <Label>Endreinigung</Label>
             <div className="flex items-center gap-2">
               <Input
-                id="finalCleaning"
                 type="number"
                 min={0}
-                step={5}
                 value={settings.extras.finalCleaning}
                 onChange={(e) => handleChange('finalCleaning', e.target.value)}
-                className="flex-1"
               />
-              <span className="text-muted-foreground text-sm whitespace-nowrap">pauschal</span>
+              <span className="text-sm text-slate-400 whitespace-nowrap">pauschal</span>
             </div>
           </div>
         </div>

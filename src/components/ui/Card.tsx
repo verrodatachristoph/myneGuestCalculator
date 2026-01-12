@@ -7,7 +7,10 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Card({ className, children, ...props }: CardProps) {
   return (
     <div
-      className={cn('rounded-lg border border-gray-200 bg-white text-ocean shadow-sm', className)}
+      className={cn(
+        'bg-white rounded-xl shadow-card transition-shadow hover:shadow-card-hover',
+        className
+      )}
       {...props}
     >
       {children}
@@ -21,7 +24,7 @@ interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardHeader({ className, children, ...props }: CardHeaderProps) {
   return (
-    <div className={cn('flex flex-col space-y-1.5 p-4 pb-2', className)} {...props}>
+    <div className={cn('px-6 pt-6 pb-2', className)} {...props}>
       {children}
     </div>
   )
@@ -33,7 +36,7 @@ interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
 
 export function CardTitle({ className, children, ...props }: CardTitleProps) {
   return (
-    <h3 className={cn('text-lg font-semibold leading-none tracking-tight text-ocean', className)} {...props}>
+    <h3 className={cn('text-base font-semibold text-slate-800', className)} {...props}>
       {children}
     </h3>
   )
@@ -45,7 +48,7 @@ interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardContent({ className, children, ...props }: CardContentProps) {
   return (
-    <div className={cn('p-4 pt-0 text-ocean', className)} {...props}>
+    <div className={cn('px-6 pb-6 pt-2', className)} {...props}>
       {children}
     </div>
   )

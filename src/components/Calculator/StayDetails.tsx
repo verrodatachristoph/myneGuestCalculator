@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
+import { Select, SelectOption } from '@/components/ui/Select'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
-import { Select, SelectOption } from '@/components/ui/Select'
 import type { Settings, Stay, SeasonType, GuestType } from '@/types'
 import { SEASON_ORDER } from '@/lib/constants'
 import { formatCurrency } from '@/lib/formatters'
@@ -13,63 +13,54 @@ interface StayDetailsProps {
 }
 
 export function StayDetails({ settings, stay, onStayChange }: StayDetailsProps) {
-  const handleSeasonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onStayChange({ ...stay, season: e.target.value as SeasonType })
-  }
-
-  const handleNightsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nights = parseInt(e.target.value, 10) || 1
-    onStayChange({ ...stay, nights: Math.max(1, nights) })
-  }
-
-  const handleWithOwnerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onStayChange({ ...stay, withOwner: e.target.value === 'yes' })
-  }
-
-  const handleGuestTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onStayChange({ ...stay, guestType: e.target.value as GuestType })
-  }
-
   return (
     <Card>
       <CardHeader>
         <CardTitle>Aufenthalt</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="season">Saison</Label>
-            <Select id="season" value={stay.season} onChange={handleSeasonChange}>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label>Saison</Label>
+            <Select
+              value={stay.season}
+              onChange={(e) => onStayChange({ ...stay, season: e.target.value as SeasonType })}
+            >
               {SEASON_ORDER.map(({ key }) => (
                 <SelectOption key={key} value={key}>
-                  {settings.seasons[key].name} ({formatCurrency(settings.seasons[key].pricePerNight)}/Nacht)
+                  {settings.seasons[key].name} ({formatCurrency(settings.seasons[key].pricePerNight)})
                 </SelectOption>
               ))}
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="nights">Anzahl Nächte</Label>
+          <div>
+            <Label>Nächte</Label>
             <Input
-              id="nights"
               type="number"
               min={1}
               value={stay.nights}
-              onChange={handleNightsChange}
+              onChange={(e) => onStayChange({ ...stay, nights: Math.max(1, parseInt(e.target.value) || 1) })}
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="withOwner">Bin ich dabei?</Label>
-            <Select id="withOwner" value={stay.withOwner ? 'yes' : 'no'} onChange={handleWithOwnerChange}>
+          <div>
+            <Label>Bin ich dabei?</Label>
+            <Select
+              value={stay.withOwner ? 'yes' : 'no'}
+              onChange={(e) => onStayChange({ ...stay, withOwner: e.target.value === 'yes' })}
+            >
               <SelectOption value="yes">Ja</SelectOption>
               <SelectOption value="no">Nein</SelectOption>
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="guestType">Gäste sind...</Label>
-            <Select id="guestType" value={stay.guestType} onChange={handleGuestTypeChange}>
+          <div>
+            <Label>Gäste sind...</Label>
+            <Select
+              value={stay.guestType}
+              onChange={(e) => onStayChange({ ...stay, guestType: e.target.value as GuestType })}
+            >
               <SelectOption value="family">Familie</SelectOption>
               <SelectOption value="friends">Freunde</SelectOption>
             </Select>

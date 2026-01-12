@@ -15,43 +15,38 @@ export function TotalCostsBreakdown({ costs, stay, settings }: TotalCostsBreakdo
         <CardTitle>Gesamtkosten</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span className="text-gray-500">
-              Miete ({stay.nights} x {formatCurrency(settings.seasons[stay.season].pricePerNight)})
-            </span>
-            <span className="text-ocean">{formatCurrency(costs.rentFull)}</span>
+        <div className="space-y-3">
+          <Row
+            label={`Miete (${stay.nights} × ${formatCurrency(settings.seasons[stay.season].pricePerNight)})`}
+            value={formatCurrency(costs.rentFull)}
+          />
+          <div className="pl-4 text-xs text-slate-400">
+            → davon 10% MwSt = {formatCurrency(costs.rentCost)}
           </div>
-          <div className="flex justify-between pl-4 text-gray-400 text-xs">
-            <span>→ davon 10% MwSt (echte Kosten)</span>
-            <span>{formatCurrency(costs.rentCost)}</span>
-          </div>
+          <Row
+            label={`Kurtaxe (${costs.totalPersons} × ${stay.nights} × ${formatCurrency(settings.extras.touristTax)})`}
+            value={formatCurrency(costs.touristTaxTotal)}
+          />
+          <Row
+            label={`Wäsche (${costs.totalPersons} × ${formatCurrency(settings.extras.laundryPackage)})`}
+            value={formatCurrency(costs.laundryTotal)}
+          />
+          <Row label="Endreinigung" value={formatCurrency(costs.cleaningTotal)} />
 
-          <div className="flex justify-between">
-            <span className="text-gray-500">
-              Kurtaxe ({costs.totalPersons} x {stay.nights} x {formatCurrency(settings.extras.touristTax)})
-            </span>
-            <span className="text-ocean">{formatCurrency(costs.touristTaxTotal)}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span className="text-gray-500">
-              Wäsche ({costs.totalPersons} x {formatCurrency(settings.extras.laundryPackage)})
-            </span>
-            <span className="text-ocean">{formatCurrency(costs.laundryTotal)}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span className="text-gray-500">Endreinigung</span>
-            <span className="text-ocean">{formatCurrency(costs.cleaningTotal)}</span>
-          </div>
-
-          <div className="flex justify-between pt-2 border-t border-gray-200 font-semibold">
-            <span className="text-ocean">Gesamt</span>
-            <span className="text-ocean">{formatCurrency(costs.totalCost)}</span>
+          <div className="pt-3 mt-3 border-t border-slate-100">
+            <Row label="Gesamt" value={formatCurrency(costs.totalCost)} bold />
           </div>
         </div>
       </CardContent>
     </Card>
+  )
+}
+
+function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
+  return (
+    <div className={`flex justify-between text-sm ${bold ? 'font-semibold text-slate-800' : ''}`}>
+      <span className={bold ? '' : 'text-slate-500'}>{label}</span>
+      <span className={bold ? '' : 'text-slate-700'}>{value}</span>
+    </div>
   )
 }

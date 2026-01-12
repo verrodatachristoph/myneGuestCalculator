@@ -11,15 +11,11 @@ interface SeasonSettingsProps {
 
 export function SeasonSettings({ settings, onSettingsChange }: SeasonSettingsProps) {
   const handlePriceChange = (season: SeasonType, value: string) => {
-    const price = parseFloat(value) || 0
     onSettingsChange({
       ...settings,
       seasons: {
         ...settings.seasons,
-        [season]: {
-          ...settings.seasons[season],
-          pricePerNight: price,
-        },
+        [season]: { ...settings.seasons[season], pricePerNight: parseFloat(value) || 0 },
       },
     })
   }
@@ -30,21 +26,18 @@ export function SeasonSettings({ settings, onSettingsChange }: SeasonSettingsPro
         <CardTitle>Saisonpreise</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {SEASON_ORDER.map(({ key }) => (
-            <div key={key} className="space-y-2">
-              <Label htmlFor={`season-${key}`}>{settings.seasons[key].name}</Label>
+            <div key={key}>
+              <Label>{settings.seasons[key].name}</Label>
               <div className="flex items-center gap-2">
                 <Input
-                  id={`season-${key}`}
                   type="number"
                   min={0}
-                  step={1}
                   value={settings.seasons[key].pricePerNight}
                   onChange={(e) => handlePriceChange(key, e.target.value)}
-                  className="flex-1"
                 />
-                <span className="text-muted-foreground text-sm whitespace-nowrap">pro Nacht</span>
+                <span className="text-sm text-slate-400 whitespace-nowrap">/ Nacht</span>
               </div>
             </div>
           ))}

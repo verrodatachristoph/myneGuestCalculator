@@ -24,7 +24,7 @@ export function Settings({ settings, onSettingsChange }: SettingsProps) {
       <MultiplierSettings settings={settings} onSettingsChange={onSettingsChange} />
 
       <div className="flex justify-end">
-        <Button variant="outline" onClick={handleReset}>
+        <Button variant="secondary" onClick={handleReset}>
           Auf Standardwerte zurücksetzen
         </Button>
       </div>

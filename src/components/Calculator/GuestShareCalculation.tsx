@@ -10,40 +10,35 @@ export function GuestShareCalculation({ costs }: GuestShareCalculationProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Gästeanteil (Multiplikator: {formatPercent(costs.multiplier)})</CardTitle>
+        <CardTitle>Gästeanteil ({formatPercent(costs.multiplier)})</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span className="text-gray-500">
-              Mietanteil ({formatCurrency(costs.rentSharePP)} x {formatPercent(costs.multiplier)})
-            </span>
-            <span className="text-ocean">{formatCurrency(costs.guestRentShare)}</span>
-          </div>
+        <div className="space-y-3">
+          <Row
+            label={`Mietanteil (× ${formatPercent(costs.multiplier)})`}
+            value={formatCurrency(costs.guestRentShare)}
+          />
+          <Row label="Kurtaxe (voll)" value={formatCurrency(costs.guestTouristTax)} />
+          <Row label="Wäsche (voll)" value={formatCurrency(costs.guestLaundry)} />
+          <Row
+            label={`Reinigung (× ${formatPercent(costs.multiplier)})`}
+            value={formatCurrency(costs.guestCleaningShare)}
+          />
 
-          <div className="flex justify-between">
-            <span className="text-gray-500">Kurtaxe (immer voll)</span>
-            <span className="text-ocean">{formatCurrency(costs.guestTouristTax)}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span className="text-gray-500">Wäsche (immer voll)</span>
-            <span className="text-ocean">{formatCurrency(costs.guestLaundry)}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span className="text-gray-500">
-              Reinigung ({formatCurrency(costs.cleaningSharePP)} x {formatPercent(costs.multiplier)})
-            </span>
-            <span className="text-ocean">{formatCurrency(costs.guestCleaningShare)}</span>
-          </div>
-
-          <div className="flex justify-between pt-2 border-t border-gray-200 font-semibold">
-            <span className="text-ocean">Pro Gast</span>
-            <span className="text-beach">{formatCurrency(costs.perGuest)}</span>
+          <div className="pt-3 mt-3 border-t border-slate-100">
+            <Row label="Pro Gast" value={formatCurrency(costs.perGuest)} bold accent />
           </div>
         </div>
       </CardContent>
     </Card>
+  )
+}
+
+function Row({ label, value, bold, accent }: { label: string; value: string; bold?: boolean; accent?: boolean }) {
+  return (
+    <div className={`flex justify-between text-sm ${bold ? 'font-semibold' : ''}`}>
+      <span className={bold ? 'text-slate-800' : 'text-slate-500'}>{label}</span>
+      <span className={accent ? 'text-ocean font-bold' : bold ? 'text-slate-800' : 'text-slate-700'}>{value}</span>
+    </div>
   )
 }
