@@ -16,14 +16,15 @@ export function Button({
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200',
+        'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200',
         'focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background',
         'disabled:opacity-50 disabled:cursor-not-allowed',
+        'active:scale-[0.98]',
         // Variants
-        variant === 'primary' && 'bg-primary text-primary-foreground hover:bg-primary/90',
-        variant === 'secondary' && 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        variant === 'primary' && 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/25 hover:shadow-lg hover:shadow-primary/30 btn-shine',
+        variant === 'secondary' && 'bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border/50',
         variant === 'ghost' && 'text-muted-foreground hover:bg-secondary hover:text-foreground',
-        variant === 'danger' && 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        variant === 'danger' && 'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-md shadow-destructive/25',
         // Sizes
         size === 'default' && 'h-11 px-5 text-sm',
         size === 'sm' && 'h-9 px-4 text-sm',

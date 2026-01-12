@@ -12,10 +12,10 @@ interface StayDetailsProps {
 }
 
 const SEASON_COLORS = {
-  peak: 'bg-emerald-600',
-  high: 'bg-emerald-500',
-  mid: 'bg-emerald-400/60',
-  low: 'bg-emerald-200/40',
+  peak: 'season-peak',
+  high: 'season-high',
+  mid: 'season-mid',
+  low: 'season-low',
 }
 
 export function StayDetails({ stay, onStayChange, settings }: StayDetailsProps) {

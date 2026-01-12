@@ -17,10 +17,10 @@ const MONTHS = [
 const WEEKDAYS = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
 
 const SEASON_COLORS: Record<SeasonType, string> = {
-  peak: 'bg-emerald-600',
-  high: 'bg-emerald-500',
-  mid: 'bg-emerald-400/60',
-  low: 'bg-emerald-200/40',
+  peak: 'season-peak',
+  high: 'season-high',
+  mid: 'season-mid',
+  low: 'season-low',
 }
 
 function getDaysInMonth(year: number, month: number): number {

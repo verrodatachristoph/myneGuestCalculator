@@ -193,7 +193,7 @@ Bitte überweise deinen Anteil per PayPal. Danke!`
   const profitMargin = stay.profitMargin || 0
 
   return (
-    <div className="bg-gradient-to-br from-primary/10 to-card rounded-2xl p-4 sm:p-8 border border-primary/20 shadow-lg text-foreground">
+    <div className="result-card rounded-2xl p-4 sm:p-8 text-foreground">
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-medium text-foreground">Gästeanteil</label>
