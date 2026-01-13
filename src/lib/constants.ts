@@ -12,8 +12,8 @@ export const DEFAULT_SETTINGS: Settings = {
   },
   extras: {
     touristTax: 3.5,
-    laundryPackage: 15,
-    finalCleaning: 95,
+    laundryPackage: 20,
+    finalCleaning: 205,
   },
 }
 
