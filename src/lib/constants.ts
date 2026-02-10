@@ -5,10 +5,10 @@ export const VAT_RATE = 0.10 // 10% MwSt Österreich - fix, nicht konfigurierbar
 // Prices from MYNE Saisonverteilungsplan - Alpine Terrace Brixen im Thale
 export const DEFAULT_SETTINGS: Settings = {
   seasons: {
-    peak: { name: 'Spitzensaison', pricePerNight: 250 },
-    high: { name: 'Hauptsaison', pricePerNight: 199 },
-    mid: { name: 'Zwischensaison', pricePerNight: 173 },
-    low: { name: 'Nebensaison', pricePerNight: 107 },
+    holidayPremium: { name: 'Bes. Feiertage (Neujahr/Ostern/Weihn.)', pricePerNight: 325 },
+    holiday: { name: 'Besondere Feiertage', pricePerNight: 287.5 },
+    peak: { name: 'Hauptferienzeiten', pricePerNight: 250 },
+    low: { name: 'Nebenzeiten', pricePerNight: 140 },
   },
   extras: {
     touristTax: 3.5,
@@ -37,9 +37,9 @@ export const GUEST_TYPE_LABELS: Record<'family' | 'friends', string> = {
   friends: 'Freunde',
 }
 
-export const SEASON_ORDER: Array<{ key: 'peak' | 'high' | 'mid' | 'low' }> = [
+export const SEASON_ORDER: Array<{ key: 'holidayPremium' | 'holiday' | 'peak' | 'low' }> = [
+  { key: 'holidayPremium' },
+  { key: 'holiday' },
   { key: 'peak' },
-  { key: 'high' },
-  { key: 'mid' },
   { key: 'low' },
 ]

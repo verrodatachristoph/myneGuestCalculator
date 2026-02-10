@@ -17,7 +17,7 @@ function calculateSeasonBreakdown(settings: Settings, checkIn: string, checkOut:
 
   // Build breakdown
   const breakdown: SeasonBreakdown[] = []
-  const seasonOrder: SeasonType[] = ['peak', 'high', 'mid', 'low']
+  const seasonOrder: SeasonType[] = ['holidayPremium', 'holiday', 'peak', 'low']
 
   for (const season of seasonOrder) {
     const nights = seasonCounts.get(season) || 0

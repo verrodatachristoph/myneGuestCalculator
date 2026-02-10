@@ -12,9 +12,9 @@ interface StayDetailsProps {
 }
 
 const SEASON_COLORS = {
+  holidayPremium: 'season-holidayPremium',
+  holiday: 'season-holiday',
   peak: 'season-peak',
-  high: 'season-high',
-  mid: 'season-mid',
   low: 'season-low',
 }
 
@@ -63,7 +63,7 @@ export function StayDetails({ stay, onStayChange, settings }: StayDetailsProps) 
           <div className="mt-4 p-3 rounded-lg bg-secondary/50 border border-border">
             <p className="text-xs text-muted-foreground mb-2">Saisonverteilung:</p>
             <div className="space-y-1.5 text-xs">
-              {(['peak', 'high', 'mid', 'low'] as const).map((season) => {
+              {(['holidayPremium', 'holiday', 'peak', 'low'] as const).map((season) => {
                 const count = nightsPerSeason[season]
                 if (count === 0) return null
                 return (
@@ -89,7 +89,7 @@ export function StayDetails({ stay, onStayChange, settings }: StayDetailsProps) 
             </p>
             <p className="text-xs text-muted-foreground mt-1">
               Aktuell sind nur {supportedRange.start}–{supportedRange.end} hinterlegt.
-              Für Tage außerhalb wird Nebensaison angenommen.
+              Für Tage außerhalb wird Nebenzeit angenommen.
             </p>
           </div>
         )}

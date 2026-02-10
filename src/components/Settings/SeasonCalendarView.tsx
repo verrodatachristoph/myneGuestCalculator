@@ -17,9 +17,9 @@ const MONTHS = [
 const WEEKDAYS = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
 
 const SEASON_COLORS: Record<SeasonType, string> = {
+  holidayPremium: 'season-holidayPremium',
+  holiday: 'season-holiday',
   peak: 'season-peak',
-  high: 'season-high',
-  mid: 'season-mid',
   low: 'season-low',
 }
 
@@ -73,6 +73,8 @@ function MonthCalendarLarge({ year, month, settings }: { year: number; month: nu
   )
 }
 
+const SUPPORTED_YEARS = [2026, 2027, 2028]
+
 export function SeasonCalendarView({ settings }: SeasonCalendarViewProps) {
   const [selectedYear, setSelectedYear] = useState(2026)
   const [currentPage, setCurrentPage] = useState(0) // 0-5 for 6 pages of 2 months each
@@ -83,23 +85,30 @@ export function SeasonCalendarView({ settings }: SeasonCalendarViewProps) {
   const goToPrevPage = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1)
-    } else if (selectedYear === 2027) {
-      setSelectedYear(2026)
-      setCurrentPage(5)
+    } else {
+      const idx = SUPPORTED_YEARS.indexOf(selectedYear)
+      if (idx > 0) {
+        setSelectedYear(SUPPORTED_YEARS[idx - 1])
+        setCurrentPage(5)
+      }
     }
   }
 
   const goToNextPage = () => {
     if (currentPage < 5) {
       setCurrentPage(currentPage + 1)
-    } else if (selectedYear === 2026) {
-      setSelectedYear(2027)
-      setCurrentPage(0)
+    } else {
+      const idx = SUPPORTED_YEARS.indexOf(selectedYear)
+      if (idx < SUPPORTED_YEARS.length - 1) {
+        setSelectedYear(SUPPORTED_YEARS[idx + 1])
+        setCurrentPage(0)
+      }
     }
   }
 
-  const canGoPrev = currentPage > 0 || selectedYear === 2027
-  const canGoNext = currentPage < 5 || selectedYear === 2026
+  const yearIdx = SUPPORTED_YEARS.indexOf(selectedYear)
+  const canGoPrev = currentPage > 0 || yearIdx > 0
+  const canGoNext = currentPage < 5 || yearIdx < SUPPORTED_YEARS.length - 1
 
   return (
     <Card>
@@ -107,20 +116,16 @@ export function SeasonCalendarView({ settings }: SeasonCalendarViewProps) {
         <div className="flex items-center justify-between">
           <CardTitle>Saisonkalender</CardTitle>
           <div className="flex gap-2">
-            <Button
-              variant={selectedYear === 2026 ? 'primary' : 'secondary'}
-              size="sm"
-              onClick={() => { setSelectedYear(2026); setCurrentPage(0) }}
-            >
-              2026
-            </Button>
-            <Button
-              variant={selectedYear === 2027 ? 'primary' : 'secondary'}
-              size="sm"
-              onClick={() => { setSelectedYear(2027); setCurrentPage(0) }}
-            >
-              2027
-            </Button>
+            {SUPPORTED_YEARS.map(year => (
+              <Button
+                key={year}
+                variant={selectedYear === year ? 'primary' : 'secondary'}
+                size="sm"
+                onClick={() => { setSelectedYear(year); setCurrentPage(0) }}
+              >
+                {year}
+              </Button>
+            ))}
           </div>
         </div>
       </CardHeader>
@@ -128,22 +133,23 @@ export function SeasonCalendarView({ settings }: SeasonCalendarViewProps) {
         {/* Legend */}
         <div className="grid grid-cols-2 gap-2 mb-4 text-[10px] sm:text-xs">
           <div className="flex items-center gap-1.5">
+            <div className={`w-3 h-3 rounded flex-shrink-0 ${SEASON_COLORS.holidayPremium}`}></div>
+            <span>Feiertage* ({formatCurrency(settings.seasons.holidayPremium.pricePerNight)})</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className={`w-3 h-3 rounded flex-shrink-0 ${SEASON_COLORS.holiday}`}></div>
+            <span>Feiertage ({formatCurrency(settings.seasons.holiday.pricePerNight)})</span>
+          </div>
+          <div className="flex items-center gap-1.5">
             <div className={`w-3 h-3 rounded flex-shrink-0 ${SEASON_COLORS.peak}`}></div>
-            <span>Spitze ({formatCurrency(settings.seasons.peak.pricePerNight)})</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <div className={`w-3 h-3 rounded flex-shrink-0 ${SEASON_COLORS.high}`}></div>
-            <span>Haupt ({formatCurrency(settings.seasons.high.pricePerNight)})</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <div className={`w-3 h-3 rounded flex-shrink-0 ${SEASON_COLORS.mid}`}></div>
-            <span>Zwischen ({formatCurrency(settings.seasons.mid.pricePerNight)})</span>
+            <span>Hauptferien ({formatCurrency(settings.seasons.peak.pricePerNight)})</span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className={`w-3 h-3 rounded flex-shrink-0 ${SEASON_COLORS.low}`}></div>
             <span>Neben ({formatCurrency(settings.seasons.low.pricePerNight)})</span>
           </div>
         </div>
+        <p className="text-[10px] text-muted-foreground mb-4">* Neujahr, Ostern, Weihnachten</p>
 
         {/* Calendar Navigation */}
         <div className="flex items-center justify-between mb-4">
@@ -197,26 +203,19 @@ export function SeasonCalendarView({ settings }: SeasonCalendarViewProps) {
         <div className="pt-4 border-t border-border">
           <p className="text-xs sm:text-sm text-muted-foreground mb-2">Original-Saisonpläne:</p>
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-            <a
-              href="/docs/Saisonplan-2026.pdf"
-              download
-              className="text-xs sm:text-sm text-primary hover:underline flex items-center gap-1"
-            >
-              <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              Saisonplan 2026 (PDF)
-            </a>
-            <a
-              href="/docs/Saisonplan-2027.pdf"
-              download
-              className="text-xs sm:text-sm text-primary hover:underline flex items-center gap-1"
-            >
-              <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              Saisonplan 2027 (PDF)
-            </a>
+            {SUPPORTED_YEARS.map(year => (
+              <a
+                key={year}
+                href={`/docs/MYNE - Alpine Terrace - Saisonverteilungsplan ${year}.pdf`}
+                download
+                className="text-xs sm:text-sm text-primary hover:underline flex items-center gap-1"
+              >
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Saisonplan {year} (PDF)
+              </a>
+            ))}
           </div>
         </div>
       </CardContent>

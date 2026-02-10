@@ -55,7 +55,7 @@ export function Help() {
             Der hinterlegte Saisonkalender gilt ausschließlich für:
           </p>
           <p className="text-base sm:text-lg font-bold text-primary mb-4">
-            "Alpine Terrace - Brixen im Thale" (2026/2027)
+            "Alpine Terrace - Brixen im Thale" (2026–2028)
           </p>
           <p className="text-muted-foreground text-xs sm:text-sm mb-3">
             Wenn du dieses Tool für eine andere MYNE-Immobilie nutzen möchtest, musst du

@@ -1,91 +1,99 @@
 import type { SeasonType } from '@/types'
 
-// Season periods based on MYNE Saisonverteilungsplan
+// Season periods based on MYNE Saisonverteilungsplan 2026-2028
 type SeasonPeriod = {
   start: string  // YYYY-MM-DD
   end: string    // YYYY-MM-DD
   season: SeasonType
 }
 
-// 2026 Season Calendar - exakte Daten aus PDF
+// BF entries are listed BEFORE HF so they take priority in getSeasonForDate().
+// BF dates: CI and CO both inclusive (full period from PDF tables).
+// HF dates: Beginn inclusive, Ende exclusive from PDF tables, converted to inclusive end.
+// NZ: default for all dates not matching BF or HF.
+
+// 2026 Season Calendar
 const SEASON_PERIODS_2026: SeasonPeriod[] = [
-  // Spitzensaison (Peak) - 43 Tage
-  { start: '2026-01-01', end: '2026-01-05', season: 'peak' },      // 5 Tage
-  { start: '2026-04-03', end: '2026-04-03', season: 'peak' },      // 1 Tag
-  { start: '2026-04-06', end: '2026-04-06', season: 'peak' },      // 1 Tag
-  { start: '2026-05-25', end: '2026-05-25', season: 'peak' },      // 1 Tag
-  { start: '2026-07-20', end: '2026-08-14', season: 'peak' },      // 26 Tage
-  { start: '2026-12-23', end: '2026-12-31', season: 'peak' },      // 9 Tage
+  // Besondere Feiertage - Premium* (Neujahr, Ostern, Weihnachten) = 325€
+  { start: '2026-01-01', end: '2026-01-02', season: 'holidayPremium' },   // Neujahr Beginn* (CI 28/12/25, CO 02/01/26)
+  { start: '2026-04-03', end: '2026-04-06', season: 'holidayPremium' },   // Ostern* (CI 03/04, CO 06/04)
+  { start: '2026-12-25', end: '2026-12-27', season: 'holidayPremium' },   // Weihnachten* (CI 25/12, CO 27/12)
+  { start: '2026-12-28', end: '2026-12-31', season: 'holidayPremium' },   // Neujahr* (CI 28/12, CO 02/01/27)
 
-  // Hauptsaison (High) - 155 Tage
-  { start: '2026-01-06', end: '2026-04-02', season: 'high' },      // 87 Tage
-  { start: '2026-04-04', end: '2026-04-05', season: 'high' },      // 2 Tage
-  { start: '2026-04-07', end: '2026-04-10', season: 'high' },      // 4 Tage
-  { start: '2026-05-26', end: '2026-05-26', season: 'high' },      // 1 Tag
-  { start: '2026-07-04', end: '2026-07-19', season: 'high' },      // 16 Tage
-  { start: '2026-08-15', end: '2026-09-12', season: 'high' },      // 29 Tage
-  { start: '2026-10-12', end: '2026-10-12', season: 'high' },      // 1 Tag
-  { start: '2026-10-17', end: '2026-10-31', season: 'high' },      // 15 Tage
+  // Besondere Feiertage - Standard = 287,50€
+  { start: '2026-02-12', end: '2026-02-16', season: 'holiday' },          // Karneval (CI 12/02, CO 16/02)
+  { start: '2026-05-01', end: '2026-05-02', season: 'holiday' },          // 1. Mai (CI 01/05, CO 02/05)
+  { start: '2026-05-14', end: '2026-05-15', season: 'holiday' },          // Christi Himmelfahrt (CI 14/05, CO 15/05)
+  { start: '2026-05-25', end: '2026-05-26', season: 'holiday' },          // Pfingstmontag (CI 25/05, CO 26/05)
+  { start: '2026-10-31', end: '2026-11-01', season: 'holiday' },          // Reformationstag (CI 31/10, CO 01/11)
 
-  // Zwischensaison (Mid) - 40 Tage
-  { start: '2026-04-11', end: '2026-04-11', season: 'mid' },       // 1 Tag
-  { start: '2026-05-15', end: '2026-05-15', season: 'mid' },       // 1 Tag
-  { start: '2026-05-23', end: '2026-05-24', season: 'mid' },       // 2 Tage
-  { start: '2026-05-27', end: '2026-06-05', season: 'mid' },       // 10 Tage
-  { start: '2026-06-29', end: '2026-07-03', season: 'mid' },       // 5 Tage
-  { start: '2026-09-13', end: '2026-09-14', season: 'mid' },       // 2 Tage
-  { start: '2026-10-05', end: '2026-10-11', season: 'mid' },       // 7 Tage
-  { start: '2026-10-13', end: '2026-10-16', season: 'mid' },       // 4 Tage
-  { start: '2026-11-02', end: '2026-11-06', season: 'mid' },       // 5 Tage
-  { start: '2026-11-18', end: '2026-11-18', season: 'mid' },       // 1 Tag
-  { start: '2026-12-21', end: '2026-12-22', season: 'mid' },       // 2 Tage
-
-  // Nebensaison (Low) - 127 Tage (Rest des Jahres)
-  // Wird als Default verwendet für alle nicht definierten Tage
+  // Hauptferienzeiten = 250€ (Beginn/Ende aus PDF, Ende exklusiv)
+  { start: '2026-01-01', end: '2026-01-05', season: 'peak' },             // Neujahr (01/01-06/01)
+  { start: '2026-02-02', end: '2026-02-20', season: 'peak' },             // Winterferien (02/02-21/02)
+  { start: '2026-03-27', end: '2026-04-10', season: 'peak' },             // Osterferien (27/03-11/04)
+  { start: '2026-07-04', end: '2026-09-13', season: 'peak' },             // Sommerferien (04/07-14/09)
+  { start: '2026-10-09', end: '2026-11-06', season: 'peak' },             // Herbstferien (09/10-07/11)
+  { start: '2026-12-23', end: '2026-12-30', season: 'peak' },             // Weihnachtsferien (23/12-31/12)
 ]
 
-// 2027 Season Calendar - exakte Daten aus PDF
+// 2027 Season Calendar (BF=16, HF=136, NZ=213)
 const SEASON_PERIODS_2027: SeasonPeriod[] = [
-  // Spitzensaison (Peak) - 42 Tage
-  { start: '2027-01-01', end: '2027-01-06', season: 'peak' },      // 6 Tage
-  { start: '2027-03-25', end: '2027-04-02', season: 'peak' },      // 9 Tage
-  { start: '2027-05-17', end: '2027-05-18', season: 'peak' },      // 2 Tage
-  { start: '2027-07-29', end: '2027-08-14', season: 'peak' },      // 17 Tage
-  { start: '2027-12-24', end: '2027-12-31', season: 'peak' },      // 8 Tage
+  // Besondere Feiertage - Premium* = 325€
+  { start: '2027-01-01', end: '2027-01-02', season: 'holidayPremium' },   // Neujahr Beginn* (CI 28/12/26, CO 02/01/27)
+  { start: '2027-03-26', end: '2027-03-29', season: 'holidayPremium' },   // Ostern* (CI 26/03, CO 29/03)
+  { start: '2027-12-25', end: '2027-12-27', season: 'holidayPremium' },   // Weihnachten* (CI 25/12, CO 27/12)
+  { start: '2027-12-28', end: '2027-12-31', season: 'holidayPremium' },   // Neujahr* (CI 28/12, CO 02/01/28)
 
-  // Hauptsaison (High) - 135 Tage
-  { start: '2027-01-07', end: '2027-03-24', season: 'high' },      // 77 Tage
-  { start: '2027-05-19', end: '2027-05-19', season: 'high' },      // 1 Tag
-  { start: '2027-07-08', end: '2027-07-28', season: 'high' },      // 21 Tage
-  { start: '2027-08-15', end: '2027-08-31', season: 'high' },      // 17 Tage
-  { start: '2027-10-11', end: '2027-10-16', season: 'high' },      // 6 Tage
-  { start: '2027-10-18', end: '2027-10-23', season: 'high' },      // 6 Tage
-  { start: '2027-11-01', end: '2027-11-06', season: 'high' },      // 6 Tage
-  { start: '2027-12-23', end: '2027-12-23', season: 'high' },      // 1 Tag
+  // Besondere Feiertage - Standard = 287,50€
+  { start: '2027-02-04', end: '2027-02-07', season: 'holiday' },          // Karneval (CI 04/02, CO 07/02)
+  { start: '2027-05-01', end: '2027-05-02', season: 'holiday' },          // 1. Mai (CI 01/05, CO 02/05)
+  { start: '2027-05-06', end: '2027-05-07', season: 'holiday' },          // Christi Himmelfahrt (CI 06/05, CO 07/05)
+  { start: '2027-05-17', end: '2027-05-18', season: 'holiday' },          // Pfingstmontag (CI 17/05, CO 18/05)
+  { start: '2027-10-31', end: '2027-11-01', season: 'holiday' },          // Reformationstag (CI 31/10, CO 01/11)
 
-  // Zwischensaison (Mid) - 55 Tage
-  { start: '2027-05-07', end: '2027-05-07', season: 'mid' },       // 1 Tag
-  { start: '2027-05-15', end: '2027-05-16', season: 'mid' },       // 2 Tage
-  { start: '2027-05-20', end: '2027-05-29', season: 'mid' },       // 10 Tage
-  { start: '2027-06-28', end: '2027-07-07', season: 'mid' },       // 10 Tage
-  { start: '2027-09-01', end: '2027-09-13', season: 'mid' },       // 13 Tage
-  { start: '2027-10-04', end: '2027-10-10', season: 'mid' },       // 7 Tage
-  { start: '2027-10-17', end: '2027-10-17', season: 'mid' },       // 1 Tag
-  { start: '2027-10-24', end: '2027-10-31', season: 'mid' },       // 8 Tage
-  { start: '2027-12-20', end: '2027-12-22', season: 'mid' },       // 3 Tage
+  // Hauptferienzeiten = 250€
+  { start: '2027-01-01', end: '2027-01-07', season: 'peak' },             // Neujahr (01/01-08/01)
+  { start: '2027-02-01', end: '2027-02-11', season: 'peak' },             // Winterferien (01/02-12/02)
+  { start: '2027-03-22', end: '2027-04-02', season: 'peak' },             // Osterferien (22/03-03/04)
+  { start: '2027-07-01', end: '2027-09-10', season: 'peak' },             // Sommerferien (01/07-11/09)
+  { start: '2027-10-11', end: '2027-11-05', season: 'peak' },             // Herbstferien (11/10-06/11)
+  { start: '2027-12-23', end: '2027-12-30', season: 'peak' },             // Weihnachtsferien (23/12-31/12)
+]
 
-  // Nebensaison (Low) - 133 Tage (Rest des Jahres)
+// 2028 Season Calendar – Schaltjahr (BF=17, HF=139, NZ=210)
+const SEASON_PERIODS_2028: SeasonPeriod[] = [
+  // Besondere Feiertage - Premium* = 325€
+  { start: '2028-01-01', end: '2028-01-02', season: 'holidayPremium' },   // Neujahr Beginn* (CI 28/12/27, CO 02/01/28)
+  { start: '2028-04-14', end: '2028-04-17', season: 'holidayPremium' },   // Ostern* (CI 14/04, CO 17/04)
+  { start: '2028-12-25', end: '2028-12-27', season: 'holidayPremium' },   // Weihnachten* (CI 25/12, CO 27/12)
+  { start: '2028-12-28', end: '2028-12-31', season: 'holidayPremium' },   // Neujahr* (CI 28/12, CO 02/01/29)
+
+  // Besondere Feiertage - Standard = 287,50€
+  { start: '2028-02-24', end: '2028-02-28', season: 'holiday' },          // Karneval (CI 24/02, CO 28/02)
+  { start: '2028-05-01', end: '2028-05-02', season: 'holiday' },          // 1. Mai (CI 01/05, CO 02/05)
+  { start: '2028-05-25', end: '2028-05-26', season: 'holiday' },          // Christi Himmelfahrt (CI 25/05, CO 26/05)
+  { start: '2028-06-05', end: '2028-06-06', season: 'holiday' },          // Pfingstmontag (CI 05/06, CO 06/06)
+  { start: '2028-10-31', end: '2028-11-01', season: 'holiday' },          // Reformationstag (CI 31/10, CO 01/11)
+
+  // Hauptferienzeiten = 250€
+  { start: '2028-01-01', end: '2028-01-07', season: 'peak' },             // Neujahr (01/01-08/01)
+  { start: '2028-02-26', end: '2028-03-02', season: 'peak' },             // Winterferien (26/02-03/03)
+  { start: '2028-04-09', end: '2028-04-21', season: 'peak' },             // Osterferien (09/04-22/04)
+  { start: '2028-07-01', end: '2028-09-09', season: 'peak' },             // Sommerferien (01/07-10/09)
+  { start: '2028-10-03', end: '2028-11-03', season: 'peak' },             // Herbstferien (03/10-04/11)
+  { start: '2028-12-21', end: '2028-12-30', season: 'peak' },             // Weihnachtsferien (21/12-31/12)
 ]
 
 // Combined season periods
 const ALL_SEASON_PERIODS: SeasonPeriod[] = [
   ...SEASON_PERIODS_2026,
   ...SEASON_PERIODS_2027,
+  ...SEASON_PERIODS_2028,
 ]
 
 // Supported date range
 const CALENDAR_START = '2026-01-01'
-const CALENDAR_END = '2027-12-31'
+const CALENDAR_END = '2028-12-31'
 
 // Cache for date lookups
 const seasonCache = new Map<string, SeasonType>()
@@ -130,7 +138,7 @@ export function getDateRange(checkIn: string, checkOut: string): string[] {
 
   while (current < end) {
     dates.push(current.toISOString().split('T')[0])
-    current.setDate(current.getDate() + 1)
+    current.setUTCDate(current.getUTCDate() + 1)
   }
 
   return dates
@@ -188,7 +196,7 @@ export function isDateRangeCovered(checkIn: string, checkOut: string): { covered
 
   // Check if end is after calendar (subtract 1 day since checkOut is not included)
   const lastNight = new Date(end)
-  lastNight.setDate(lastNight.getDate() - 1)
+  lastNight.setUTCDate(lastNight.getUTCDate() - 1)
   if (lastNight > calendarEnd) {
     uncoveredYears.add(lastNight.getFullYear())
   }
@@ -213,7 +221,7 @@ export function getSupportedYearRange(): { start: number; end: number } {
  * Count nights per season for a stay
  */
 export function countNightsPerSeason(checkIn: string, checkOut: string): Record<SeasonType, number> {
-  const counts: Record<SeasonType, number> = { peak: 0, high: 0, mid: 0, low: 0 }
+  const counts: Record<SeasonType, number> = { holidayPremium: 0, holiday: 0, peak: 0, low: 0 }
   const dates = getDateRange(checkIn, checkOut)
 
   for (const dateStr of dates) {
@@ -228,7 +236,7 @@ export function countNightsPerSeason(checkIn: string, checkOut: string): Record<
  * Count days per season for a given year (for verification)
  */
 export function countDaysPerSeason(year: number): Record<SeasonType, number> {
-  const counts: Record<SeasonType, number> = { peak: 0, high: 0, mid: 0, low: 0 }
+  const counts: Record<SeasonType, number> = { holidayPremium: 0, holiday: 0, peak: 0, low: 0 }
 
   const startDate = new Date(`${year}-01-01`)
   const endDate = new Date(`${year}-12-31`)
@@ -238,7 +246,7 @@ export function countDaysPerSeason(year: number): Record<SeasonType, number> {
     const dateStr = current.toISOString().split('T')[0]
     const season = getSeasonForDate(dateStr)
     counts[season]++
-    current.setDate(current.getDate() + 1)
+    current.setUTCDate(current.getUTCDate() + 1)
   }
 
   return counts

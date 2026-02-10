@@ -1,5 +1,5 @@
 // Season types
-export type SeasonType = 'peak' | 'high' | 'mid' | 'low';
+export type SeasonType = 'holidayPremium' | 'holiday' | 'peak' | 'low';
 
 export interface SeasonConfig {
   name: string;

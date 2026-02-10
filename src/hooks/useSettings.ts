@@ -5,6 +5,21 @@ import { DEFAULT_SETTINGS } from '@/lib/constants'
 
 const LOCAL_STORAGE_KEY = 'ferienhaus-settings'
 
+// Migrate old 4-season settings to new 3-season format
+function migrateSettings(stored: Record<string, unknown>): Settings | null {
+  const seasons = stored.seasons as Record<string, unknown> | undefined
+  if (!seasons) return null
+  // If old format detected (has 'high' or 'mid' keys), reset to defaults
+  if ('high' in seasons || 'mid' in seasons) {
+    return null
+  }
+  // Check if new format is complete
+  if ('holidayPremium' in seasons && 'holiday' in seasons && 'peak' in seasons && 'low' in seasons) {
+    return stored as unknown as Settings
+  }
+  return null
+}
+
 export function useSettings(): [Settings, (settings: Settings) => void, boolean] {
   const [settings, setSettingsState] = useState<Settings>(DEFAULT_SETTINGS)
   const [isLoading, setIsLoading] = useState(true)
@@ -17,16 +32,24 @@ export function useSettings(): [Settings, (settings: Settings) => void, boolean]
       // 1. Versuche API
       const apiSettings = await loadSettings()
       if (apiSettings) {
-        setSettingsState(apiSettings)
-        setIsLoading(false)
-        return
+        const migrated = migrateSettings(apiSettings as unknown as Record<string, unknown>)
+        if (migrated) {
+          setSettingsState(migrated)
+          setIsLoading(false)
+          return
+        }
       }
 
       // 2. Fallback: localStorage
       try {
         const stored = localStorage.getItem(LOCAL_STORAGE_KEY)
         if (stored) {
-          setSettingsState(JSON.parse(stored))
+          const parsed = JSON.parse(stored)
+          const migrated = migrateSettings(parsed)
+          if (migrated) {
+            setSettingsState(migrated)
+          }
+          // If migration fails, stick with DEFAULT_SETTINGS
         }
       } catch {
         // Silently ignore localStorage errors
