@@ -34,10 +34,6 @@ export function TotalCostsBreakdown({ costs, settings }: TotalCostsBreakdownProp
           {/* Cost items that sum up */}
           <Row label="Mietkosten (10% MwSt)" value={formatCurrency(costs.rentCost)} />
           <Row
-            label={`Kurtaxe (${costs.totalPersons} × ${costs.nights} × ${formatCurrency(settings.extras.touristTax)})`}
-            value={formatCurrency(costs.touristTaxTotal)}
-          />
-          <Row
             label={`Wäsche (${costs.totalPersons} × ${formatCurrency(settings.extras.laundryPackage)})`}
             value={formatCurrency(costs.laundryTotal)}
           />

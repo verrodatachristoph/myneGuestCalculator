@@ -11,7 +11,6 @@ export const DEFAULT_SETTINGS: Settings = {
     low: { name: 'Nebenzeiten', pricePerNight: 112 },
   },
   extras: {
-    touristTax: 3.5,
     laundryPackage: 20,
     finalCleaning: 205,
   },

@@ -44,7 +44,6 @@ Anzahl: ${costs.guestCount}
 
 Kosten pro Gast
 Mietanteil: ${formatCurrency(costs.guestRentShare)}
-Kurtaxe: ${formatCurrency(costs.guestTouristTax)}
 Wäschepaket: ${formatCurrency(costs.guestLaundry)}
 Reinigung: ${formatCurrency(costs.guestCleaningShare)}
 
@@ -147,7 +146,6 @@ Bitte überweise deinen Anteil per PayPal. Danke!`
 
     const costItems = [
       ['Mietanteil', formatCurrency(costs.guestRentShare)],
-      ['Kurtaxe', formatCurrency(costs.guestTouristTax)],
       ['Wäschepaket', formatCurrency(costs.guestLaundry)],
       ['Reinigung', formatCurrency(costs.guestCleaningShare)],
     ]

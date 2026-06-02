@@ -20,7 +20,6 @@ export function GuestShareCalculation({ costs }: GuestShareCalculationProps) {
             label={`Mietanteil (× ${percentLabel})`}
             value={formatCurrency(costs.guestRentShare)}
           />
-          <Row label={`Kurtaxe (× ${percentLabel})`} value={formatCurrency(costs.guestTouristTax)} />
           <Row label={`Wäsche (× ${percentLabel})`} value={formatCurrency(costs.guestLaundry)} />
           <Row
             label={`Reinigung (× ${percentLabel})`}

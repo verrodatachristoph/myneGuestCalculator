@@ -82,7 +82,6 @@ export function Help() {
             </p>
             <ul className="list-disc list-inside mt-2 space-y-1">
               <li>Die saisonabhängigen Mietpreise deiner Immobilie</li>
-              <li>Kurtaxe pro Person und Nacht</li>
               <li>Wäschepakete pro Person</li>
               <li>Die pauschale Endreinigung</li>
             </ul>
@@ -94,12 +93,14 @@ export function Help() {
 
             <p className="font-medium text-foreground mt-3">2. Mietkosten (10% MwSt)</p>
             <p>
-              Nach österreichischem Steuerrecht für Ferienimmobilien gelten nur 10% der Bruttomiete als "echte Kosten",
-              die auf die Teilnehmer umgelegt werden. Die restlichen 90% fließen an MYNE/den Eigentümer.
+              In der Bruttomiete sind 10% MwSt bereits enthalten. Nur diese enthaltene MwSt ist sofort
+              zu zahlen und wird auf die Teilnehmer umgelegt – sie wird aus dem Bruttopreis herausgerechnet
+              (Brutto ÷ 1,10 = Netto; Brutto − Netto = enthaltene MwSt). Der Nettobetrag wird gestundet bzw.
+              fließt an MYNE/den Eigentümer.
             </p>
 
             <p className="font-medium text-foreground mt-3">3. Zusatzkosten</p>
-            <p>Kurtaxe, Wäschepaket und Endreinigung werden vollständig auf alle Teilnehmer umgelegt.</p>
+            <p>Wäschepaket und Endreinigung werden vollständig auf alle Teilnehmer umgelegt.</p>
           </HelpSection>
 
           <HelpSection title="Was bedeutet der Gästeanteil-Slider (0-200%)?">

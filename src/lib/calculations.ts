@@ -46,29 +46,28 @@ export function calculateCosts(settings: Settings, stay: Stay): CostBreakdown {
   // Schritt 1: Saisonaufteilung und Mietkosten berechnen
   const seasonBreakdown = calculateSeasonBreakdown(settings, checkIn, checkOut)
   const rentFull = seasonBreakdown.reduce((sum, s) => sum + s.subtotal, 0)
-  const rentCost = rentFull * VAT_RATE // Nur 10% MwSt sind echte Kosten
+  // Die 10% MwSt sind im Bruttopreis bereits enthalten und werden herausgerechnet.
+  // Nur diese enthaltene MwSt ist sofort zu zahlen, der Nettobetrag wird gestundet.
+  const rentCost = rentFull * (VAT_RATE / (1 + VAT_RATE)) // = rentFull / 11
 
   // Schritt 2: Zusatzkosten berechnen
-  const touristTaxTotal = extras.touristTax * totalPersons * nights
   const laundryTotal = extras.laundryPackage * totalPersons
   const cleaningTotal = extras.finalCleaning
-  const totalCost = rentCost + touristTaxTotal + laundryTotal + cleaningTotal
+  const totalCost = rentCost + laundryTotal + cleaningTotal
 
   // Schritt 3: Kosten pro Teilnehmer (bei 100%)
   const rentSharePP = totalPersons > 0 ? rentCost / totalPersons : 0
-  const touristTaxPP = extras.touristTax * nights // Pro Person
   const laundryPP = extras.laundryPackage // Pro Person
   const cleaningSharePP = totalPersons > 0 ? cleaningTotal / totalPersons : 0
-  const perPerson = rentSharePP + touristTaxPP + laundryPP + cleaningSharePP
+  const perPerson = rentSharePP + laundryPP + cleaningSharePP
 
   // Schritt 4: Gästeanteil berechnen mit Schieberegler-Prozent + Gewinnaufschlag
   const effectivePercent = guestSharePercent + profitMargin
   const multiplier = effectivePercent / 100
   const guestRentShare = rentSharePP * multiplier
   const guestCleaningShare = cleaningSharePP * multiplier
-  const guestTouristTax = touristTaxPP * multiplier
   const guestLaundry = laundryPP * multiplier
-  const perGuest = guestRentShare + guestTouristTax + guestLaundry + guestCleaningShare
+  const perGuest = guestRentShare + guestLaundry + guestCleaningShare
   const guestTotal = perGuest * guestCount
 
   return {
@@ -76,19 +75,16 @@ export function calculateCosts(settings: Settings, stay: Stay): CostBreakdown {
     seasonBreakdown,
     rentFull,
     rentCost,
-    touristTaxTotal,
     laundryTotal,
     cleaningTotal,
     totalCost,
     rentSharePP,
-    touristTaxPP,
     laundryPP,
     cleaningSharePP,
     perPerson,
     guestSharePercent,
     guestRentShare,
     guestCleaningShare,
-    guestTouristTax,
     guestLaundry,
     perGuest,
     guestTotal,

@@ -24,20 +24,6 @@ export function ExtrasSettings({ settings, onSettingsChange }: ExtrasSettingsPro
       <CardContent>
         <div className="space-y-4">
           <div>
-            <Label className="text-xs sm:text-sm">Kurtaxe</Label>
-            <div className="flex items-center gap-2">
-              <Input
-                type="number"
-                min={0}
-                step={0.5}
-                value={settings.extras.touristTax}
-                onChange={(e) => handleChange('touristTax', e.target.value)}
-              />
-              <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">€/Pers./Tag</span>
-            </div>
-          </div>
-
-          <div>
             <Label className="text-xs sm:text-sm">Wäschepaket</Label>
             <div className="flex items-center gap-2">
               <Input

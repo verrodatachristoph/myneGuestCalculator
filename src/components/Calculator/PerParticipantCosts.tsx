@@ -15,7 +15,6 @@ export function PerParticipantCosts({ costs }: PerParticipantCostsProps) {
       <CardContent>
         <div className="space-y-3">
           <Row label={`Mietanteil (1/${costs.totalPersons})`} value={formatCurrency(costs.rentSharePP)} />
-          <Row label="Kurtaxe" value={formatCurrency(costs.touristTaxPP)} />
           <Row label="Wäsche" value={formatCurrency(costs.laundryPP)} />
           <Row label={`Reinigung (1/${costs.totalPersons})`} value={formatCurrency(costs.cleaningSharePP)} />
 
