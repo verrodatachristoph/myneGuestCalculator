@@ -17,6 +17,9 @@ export function PerParticipantCosts({ costs }: PerParticipantCostsProps) {
           <Row label={`Mietanteil (1/${costs.totalPersons})`} value={formatCurrency(costs.rentSharePP)} />
           <Row label="Wäsche" value={formatCurrency(costs.laundryPP)} />
           <Row label={`Reinigung (1/${costs.totalPersons})`} value={formatCurrency(costs.cleaningSharePP)} />
+          {costs.petTotal > 0 && (
+            <Row label={`Haustier (1/${costs.totalPersons})`} value={formatCurrency(costs.petSharePP)} />
+          )}
 
           <div className="pt-3 mt-3 border-t border-border">
             <Row label="Pro Teilnehmer" value={formatCurrency(costs.perPerson)} bold />

@@ -15,7 +15,13 @@ function migrateSettings(stored: Record<string, unknown>): Settings | null {
   }
   // Check if new format is complete
   if ('holidayPremium' in seasons && 'holiday' in seasons && 'peak' in seasons && 'low' in seasons) {
-    return stored as unknown as Settings
+    const settings = stored as unknown as Settings
+    // Fehlende Extras (z.B. petFee aus älteren Ständen) mit Defaults auffüllen
+    return {
+      ...settings,
+      extras: { ...DEFAULT_SETTINGS.extras, ...settings.extras },
+      clubDiscountPercent: settings.clubDiscountPercent ?? DEFAULT_SETTINGS.clubDiscountPercent,
+    }
   }
   return null
 }

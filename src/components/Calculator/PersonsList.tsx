@@ -80,6 +80,17 @@ export function PersonsList({ stay, onStayChange }: PersonsListProps) {
         <Button variant="secondary" onClick={addPerson} className="mt-4 w-full">
           + Person hinzufügen
         </Button>
+
+        <label className="mt-4 flex items-center gap-2 p-3 rounded-lg bg-secondary/50 border border-border cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={stay.hasPet ?? false}
+            onChange={(e) => onStayChange({ ...stay, hasPet: e.target.checked })}
+            className="w-4 h-4 rounded border-border bg-input text-primary focus:ring-ring"
+          />
+          <span className="text-sm text-foreground">Haustier dabei</span>
+          <span className="ml-auto text-xs text-muted-foreground">Pauschale wird auf alle umgelegt</span>
+        </label>
       </CardContent>
     </Card>
   )

@@ -29,6 +29,20 @@ export function TotalCostsBreakdown({ costs, settings }: TotalCostsBreakdownProp
                 <span className="text-muted-foreground">{formatCurrency(s.subtotal)}</span>
               </div>
             ))}
+            {costs.rentDiscount > 0 && (
+              <>
+                <div className="flex justify-between text-xs pl-3">
+                  <span className="text-muted-foreground">
+                    MYNE Club Rabatt ({settings.clubDiscountPercent}%)
+                  </span>
+                  <span className="text-muted-foreground">−{formatCurrency(costs.rentDiscount)}</span>
+                </div>
+                <div className="flex justify-between text-sm pt-1">
+                  <span className="text-muted-foreground">Miete nach Rabatt</span>
+                  <span className="text-muted-foreground">{formatCurrency(costs.rentAfterDiscount)}</span>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Cost items that sum up */}
@@ -38,6 +52,7 @@ export function TotalCostsBreakdown({ costs, settings }: TotalCostsBreakdownProp
             value={formatCurrency(costs.laundryTotal)}
           />
           <Row label="Endreinigung" value={formatCurrency(costs.cleaningTotal)} />
+          {costs.petTotal > 0 && <Row label="Haustier" value={formatCurrency(costs.petTotal)} />}
 
           <div className="pt-3 mt-3 border-t border-border">
             <Row label="Gesamt" value={formatCurrency(costs.totalCost)} bold />

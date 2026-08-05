@@ -12,6 +12,7 @@ export type Seasons = Record<SeasonType, SeasonConfig>;
 export interface Extras {
   laundryPackage: number;  // Wäschepaket pro Person pro Aufenthalt
   finalCleaning: number;   // Endreinigung pauschal pro Aufenthalt
+  petFee: number;          // Haustiergebühr pauschal pro Aufenthalt
 }
 
 // Guest type
@@ -21,6 +22,7 @@ export type GuestType = 'family' | 'friends';
 export interface Settings {
   seasons: Seasons;
   extras: Extras;
+  clubDiscountPercent: number;  // MYNE Club Rabatt in %, nur auf die Miete
 }
 
 // Person in the stay
@@ -37,6 +39,7 @@ export interface Stay {
   guestType: GuestType;
   guestSharePercent: number;  // 0-200%, default 100%
   profitMargin: number;       // 0, 50, or 100 - added on top for profit
+  hasPet: boolean;            // Haustier dabei - löst die Haustiergebühr aus
   persons: Person[];
 }
 
@@ -55,16 +58,21 @@ export interface CostBreakdown {
   seasonBreakdown: SeasonBreakdown[];
 
   // Raw totals
-  rentFull: number;
-  rentCost: number;          // rentFull × 10% VAT
+  rentFull: number;          // Bruttomiete laut Saisonkalender
+  rentDiscount: number;      // MYNE Club Rabatt auf die Bruttomiete
+  rentAfterDiscount: number; // Bruttomiete nach Rabatt
+  rentNetDeferred: number;   // gestundeter Nettoanteil der Miete
+  rentCost: number;          // in rentAfterDiscount enthaltene 10% MwSt
   laundryTotal: number;
   cleaningTotal: number;
+  petTotal: number;
   totalCost: number;
 
   // Per participant (100%)
   rentSharePP: number;
   laundryPP: number;
   cleaningSharePP: number;
+  petSharePP: number;
   perPerson: number;
 
   // Guest share (with multiplier)
@@ -72,6 +80,7 @@ export interface CostBreakdown {
   guestRentShare: number;
   guestCleaningShare: number;
   guestLaundry: number;
+  guestPetShare: number;
   perGuest: number;
   guestTotal: number;
 

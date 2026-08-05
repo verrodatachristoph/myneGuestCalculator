@@ -13,7 +13,9 @@ export const DEFAULT_SETTINGS: Settings = {
   extras: {
     laundryPackage: 20,
     finalCleaning: 205,
+    petFee: 50,
   },
+  clubDiscountPercent: 30,
 }
 
 // Default stay without pre-selected dates
@@ -23,6 +25,7 @@ export const DEFAULT_STAY: Stay = {
   guestType: 'friends',
   guestSharePercent: 100,
   profitMargin: 0,
+  hasPet: false,
   persons: [
     { id: '1', name: 'Eigentümer 1', isOwner: true },
     { id: '2', name: 'Eigentümer 2', isOwner: true },

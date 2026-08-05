@@ -25,6 +25,9 @@ export function GuestShareCalculation({ costs }: GuestShareCalculationProps) {
             label={`Reinigung (× ${percentLabel})`}
             value={formatCurrency(costs.guestCleaningShare)}
           />
+          {costs.petTotal > 0 && (
+            <Row label={`Haustier (× ${percentLabel})`} value={formatCurrency(costs.guestPetShare)} />
+          )}
 
           <div className="pt-3 mt-3 border-t border-border">
             <Row label="Pro Gast" value={formatCurrency(costs.perGuest)} bold accent />

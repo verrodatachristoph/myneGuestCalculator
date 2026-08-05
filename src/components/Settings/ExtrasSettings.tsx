@@ -24,6 +24,25 @@ export function ExtrasSettings({ settings, onSettingsChange }: ExtrasSettingsPro
       <CardContent>
         <div className="space-y-4">
           <div>
+            <Label className="text-xs sm:text-sm">MYNE Club Rabatt</Label>
+            <div className="flex items-center gap-2">
+              <Input
+                type="number"
+                min={0}
+                max={100}
+                value={settings.clubDiscountPercent}
+                onChange={(e) =>
+                  onSettingsChange({
+                    ...settings,
+                    clubDiscountPercent: parseFloat(e.target.value) || 0,
+                  })
+                }
+              />
+              <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">% auf Miete</span>
+            </div>
+          </div>
+
+          <div>
             <Label className="text-xs sm:text-sm">Wäschepaket</Label>
             <div className="flex items-center gap-2">
               <Input
@@ -44,6 +63,19 @@ export function ExtrasSettings({ settings, onSettingsChange }: ExtrasSettingsPro
                 min={0}
                 value={settings.extras.finalCleaning}
                 onChange={(e) => handleChange('finalCleaning', e.target.value)}
+              />
+              <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">€ pauschal</span>
+            </div>
+          </div>
+
+          <div>
+            <Label className="text-xs sm:text-sm">Haustier</Label>
+            <div className="flex items-center gap-2">
+              <Input
+                type="number"
+                min={0}
+                value={settings.extras.petFee}
+                onChange={(e) => handleChange('petFee', e.target.value)}
               />
               <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">€ pauschal</span>
             </div>

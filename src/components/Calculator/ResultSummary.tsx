@@ -45,7 +45,7 @@ Anzahl: ${costs.guestCount}
 Kosten pro Gast
 Mietanteil: ${formatCurrency(costs.guestRentShare)}
 Wäschepaket: ${formatCurrency(costs.guestLaundry)}
-Reinigung: ${formatCurrency(costs.guestCleaningShare)}
+Reinigung: ${formatCurrency(costs.guestCleaningShare)}${costs.petTotal > 0 ? `\nHaustier: ${formatCurrency(costs.guestPetShare)}` : ''}
 
 Gesamt pro Person: ${formatCurrency(costs.perGuest)}
 
@@ -148,6 +148,7 @@ Bitte überweise deinen Anteil per PayPal. Danke!`
       ['Mietanteil', formatCurrency(costs.guestRentShare)],
       ['Wäschepaket', formatCurrency(costs.guestLaundry)],
       ['Reinigung', formatCurrency(costs.guestCleaningShare)],
+      ...(costs.petTotal > 0 ? [['Haustier', formatCurrency(costs.guestPetShare)]] : []),
     ]
 
     costItems.forEach(([label, value]) => {

@@ -84,6 +84,7 @@ export function Help() {
               <li>Die saisonabhängigen Mietpreise deiner Immobilie</li>
               <li>Wäschepakete pro Person</li>
               <li>Die pauschale Endreinigung</li>
+              <li>Eine optionale Haustierpauschale</li>
             </ul>
           </HelpSection>
 
@@ -91,7 +92,14 @@ export function Help() {
             <p className="font-medium text-foreground">1. Bruttomiete</p>
             <p>Die Bruttomiete wird basierend auf dem Saisonkalender berechnet. Jede Nacht wird der entsprechenden Saison zugeordnet und mit dem jeweiligen Preis multipliziert.</p>
 
-            <p className="font-medium text-foreground mt-3">2. Mietkosten (10% MwSt)</p>
+            <p className="font-medium text-foreground mt-3">2. MYNE Club Rabatt</p>
+            <p>
+              Der MYNE Club Rabatt wird ausschließlich auf die Bruttomiete gewährt – Wäschepaket,
+              Endreinigung und Haustierpauschale bleiben unrabattiert. Der Prozentsatz ist in den
+              Einstellungen hinterlegt.
+            </p>
+
+            <p className="font-medium text-foreground mt-3">3. Mietkosten (10% MwSt)</p>
             <p>
               In der Bruttomiete sind 10% MwSt bereits enthalten. Nur diese enthaltene MwSt ist sofort
               zu zahlen und wird auf die Teilnehmer umgelegt – sie wird aus dem Bruttopreis herausgerechnet
@@ -99,8 +107,12 @@ export function Help() {
               fließt an MYNE/den Eigentümer.
             </p>
 
-            <p className="font-medium text-foreground mt-3">3. Zusatzkosten</p>
-            <p>Wäschepaket und Endreinigung werden vollständig auf alle Teilnehmer umgelegt.</p>
+            <p className="font-medium text-foreground mt-3">4. Zusatzkosten</p>
+            <p>
+              Wäschepaket und Endreinigung werden vollständig auf alle Teilnehmer umgelegt. Ist bei den
+              Personen „Haustier dabei" angehakt, kommt die Haustierpauschale einmalig pro Aufenthalt hinzu
+              und wird ebenfalls auf alle Teilnehmer aufgeteilt.
+            </p>
           </HelpSection>
 
           <HelpSection title="Was bedeutet der Gästeanteil-Slider (0-200%)?">
